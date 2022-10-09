@@ -2,18 +2,18 @@ import MenuButton from "./MenuButton";
 
 function Home({ handleOpenMenu }) {
   return (
-    <div className="flex relative swiper-no-swiping">
+    <div className="flex relative h-full w-full">
       <div className="hidden lg:block w-[33vw] bg-home bg-no-repeat bg-cover bg-center" />
       <MenuButton onClick={handleOpenMenu} theme="dark" />
-      <div className="h-screen grow flex justify-center items-center">
-        <h1 className="font-inter text-[144px] font-bold leading-[128px]">
+      <div className="grow flex justify-center items-center">
+        <h1 className="font-inter text-[48px] xs:text-[64px] sm:text-[96px] lg:text-[128px] 2xl:text-[144px] font-bold leading-none">
           <span>Bilal</span>
           <br />
-          <span className="ml-[190px]">Gümüş</span>
+          <span>&emsp;&nbsp;Gümüş</span>
           <br />
           <div className="flex">
             <span>Dev.</span>
-            <span className="text-[36px] font-normal align-top leading-normal">
+            <span className="text-[18px] md:text-[36px] font-normal align-top leading-normal">
               &#169;2022
             </span>
           </div>

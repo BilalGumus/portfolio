@@ -3,7 +3,7 @@ import "swiper/css/pagination";
 import Head from "next/head";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel } from "swiper";
+import { Mousewheel, Pagination } from "swiper";
 import Menu from "../components/Menu";
 import Home from "../components/Home";
 import About from "../components/About";
@@ -42,12 +42,15 @@ export default function App() {
         />
       )}
       <Swiper
+        pagination={{
+          type: "progressbar",
+        }}
         onSwiper={setSwiperInstance}
         speed={600}
         direction={"vertical"}
         slidesPerView={1}
         mousewheel={true}
-        modules={[Mousewheel]}
+        modules={[Mousewheel, Pagination]}
         className="w-screen h-screen"
       >
         <SwiperSlide>

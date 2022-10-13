@@ -13,8 +13,8 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        home: "url('../assets/images/cat.jpg')",
-        contact: "url('../assets/images/contact.jpg')",
+        home: "url('/assets/images/cat.jpg')",
+        contact: "url('/assets/images/contact.jpg')",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

@@ -12,10 +12,6 @@ module.exports = {
       ...defaultTheme.screens,
     },
     extend: {
-      backgroundImage: {
-        home: "url('/assets/images/cat.jpg')",
-        contact: "url('/assets/images/contact.jpg')",
-      },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         bigShouldersDisplay: ["Big Shoulders Display", "sans-serif"],

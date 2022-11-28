@@ -1,13 +1,9 @@
-import MenuButton from "./MenuButton";
-
-function Contact({ handleOpenMenu }) {
+function Contact() {
   return (
     <div className="flex h-full relative">
-      <div className="hidden lg:block w-[33vw] bg-contact bg-no-repeat bg-cover bg-center" />
-      <MenuButton onClick={handleOpenMenu} theme="dark" />
       <div className="h-screen grow flex justify-center items-center">
         <div className="text-center leading-none">
-          <h1 className="font-inter text-[48px] xs:text-[64px] sm:text-[96px] lg:text-[128px] 2xl:text-[144px] font-bold mb-[16px] lg:mb-0">
+          <h1 className="font-inter text-[48px] xs:text-[64px] sm:text-[96px] lg:text-[128px] 2xl:text-[144px] font-bold mb-[16px] lg:mb-[32px] ">
             Contact
           </h1>
           <h2 className="font-inter text-[18px] xs:text-[24px] md:text-[32px] lg:text-[36px] font-normal mb-[32px]">

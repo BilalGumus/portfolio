@@ -1,9 +1,6 @@
-import MenuButton from "./MenuButton";
-
-function Skills({ handleOpenMenu }) {
+function Skills() {
   return (
     <div className="flex h-full relative lg:pb-[36px]">
-      <MenuButton onClick={handleOpenMenu} />
       <div className="flex flex-col justify-end h-full w-full p-[32px] md:p-[48px] lg:p-[64px]">
         <h1 className="font-ptSerif text-[24px] md:text-[36px] font-normal mb-[32px] md:mb-[64px]">
           Skills —
@@ -31,13 +28,13 @@ function Skills({ handleOpenMenu }) {
               NodeJS
             </h2>
             <h2 className="text-white font-inter text-[28px] xs:text-[32px] sm:text-[36px] md:text-[48px] lg:text-[64px] font-bold leading-none">
-              Express
-            </h2>
-            <h2 className="text-white font-inter text-[28px] xs:text-[32px] sm:text-[36px] md:text-[48px] lg:text-[64px] font-bold leading-none">
               Apollo
             </h2>
             <h2 className="text-white font-inter text-[28px] xs:text-[32px] sm:text-[36px] md:text-[48px] lg:text-[64px] font-bold leading-none">
               GraphQL
+            </h2>
+            <h2 className="text-white font-inter text-[28px] xs:text-[32px] sm:text-[36px] md:text-[48px] lg:text-[64px] font-bold leading-none">
+              Prisma
             </h2>
             <h2 className="text-white font-inter text-[28px] xs:text-[32px] sm:text-[36px] md:text-[48px] lg:text-[64px] font-bold leading-none">
               PostgreSQL

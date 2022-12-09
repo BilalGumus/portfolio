@@ -11,6 +11,7 @@ import Skills from "../components/Skills";
 import Experience from "../components/Experience";
 import Education from "../components/Education";
 import Contact from "../components/Contact";
+import MenuButton from "../components/MenuButton";
 
 export default function App() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -35,6 +36,7 @@ export default function App() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <MenuButton onClick={handleOpenMenu} theme="dark" />
       {openMenu && (
         <Menu
           handleCloseMenu={handleCloseMenu}

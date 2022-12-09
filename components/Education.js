@@ -1,9 +1,6 @@
-import MenuButton from "./MenuButton";
-
-function Education({ handleOpenMenu }) {
+function Education() {
   return (
     <div className="flex h-full relative lg:pb-[36px]">
-      <MenuButton onClick={handleOpenMenu} />
       <div className="flex flex-col justify-end md:grid w-full md:grid-cols-2 p-[32px] md:p-[48px] lg:p-[64px]">
         <div className="md:self-end">
           <h1 className="text-white font-inter font-bold text-[32px] md:text-[48px] lg:text-[64px] mb-[24px] md:mb-0">

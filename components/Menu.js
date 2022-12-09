@@ -21,7 +21,7 @@ function Menu({ handleCloseMenu, swiperInstance }) {
                 N&#xb0;{index + 1}
               </span>
               <h1
-                className="cursor-pointer text-white font-inter text-[32px] sm:text-[48px] md:text-[64px] lg:text-[92px] font-bold leading-none ease-in-out duration-300 hover:tracking-[14px]"
+                className="cursor-pointer text-white font-inter text-[32px] sm:text-[48px] md:text-[64px] lg:text-[92px] font-bold leading-none ease-in-out duration-300 hover:tracking-none hover:sm:tracking-[7px] hover:lg:tracking-[14px]"
                 onClick={async () => {
                   await swiperInstance.slideTo(index);
                   handleCloseMenu();

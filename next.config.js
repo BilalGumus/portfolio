@@ -3,10 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   // Throws: Github Pages Error
-  // i18n: {
-  //   locales: ['en'],
-  //   defaultLocale: 'en',
-  // },
-}
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

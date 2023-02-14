@@ -1,7 +1,7 @@
 function MenuButton(props) {
   return (
     <div
-      className={`z-10 transition-all hover:rotate-90 select-none absolute top-[32px] left-[32px] md:top-[48px] md:left-[48px] lg:top-[64px] lg:left-[64px] cursor-pointer flex justify-center items-center w-[66px] h-[66px] md:w-[88px] md:h-[88px] lg:w-[100px] lg:h-[100px] ${
+      className={`z-10 transition-all hover:rotate-90 select-none absolute top-[32px] right-[32px] cursor-pointer flex justify-center items-center w-[66px] h-[66px] ${
         props.theme === "dark" ? "bg-black text-white" : "bg-white text-black"
       }`}
       onClick={props.onClick}
@@ -13,7 +13,7 @@ function MenuButton(props) {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+          className="w-8 h-8"
         >
           <path
             strokeLinecap="round"

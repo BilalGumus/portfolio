@@ -9,19 +9,19 @@ export const MENU_ITEMS = [
 
 function Menu({ handleCloseMenu, swiperInstance }) {
   return (
-    <div className="fixed w-screen h-screen z-20 bg-[#121212] px-[16px] py-[32px] xs:px-[32px] xs:py-[48px] lg:px-[64px] lg:py-[96px] overflow-auto">
+    <div className="fixed w-screen h-screen z-20 bg-[#030303]  overflow-auto">
       <div className="relative">
-        <div className="relative pt-[48px] lg:pt-0">
+        <div className="h-screen flex flex-col justify-center relative px-[16px] py-[46px] xs:px-[32px] md:px-[72px] lg:px-[96px]">
           {MENU_ITEMS.map((item, index) => (
             <div
               key={index}
-              className="flex items-end gap-[24px] md:gap-[32px] lg:gap-[64px] mb-[18px] md:mb-[24px] lg:mb-[32px]"
+              className="flex items-end gap-[24px] md:gap-[32px] lg:gap-[48px] mb-[18px]"
             >
-              <span className="text-white font-inter text-[18px] xs:text-[24px] md:text-[32px] lg:text-[36px] font-normal leading-normal">
+              <span className="text-white font-inter text-[16px] xs:text-[24px] font-normal leading-normal">
                 N&#xb0;{index + 1}
               </span>
               <h1
-                className="cursor-pointer text-white font-inter text-[32px] sm:text-[48px] md:text-[64px] lg:text-[92px] font-bold leading-none ease-in-out duration-300 hover:tracking-none hover:sm:tracking-[7px] hover:lg:tracking-[14px]"
+                className="cursor-pointer text-white font-inter text-[32px] sm:text-[48px] font-bold leading-none ease-in-out duration-300 hover:tracking-none hover:sm:tracking-[2px] hover:lg:tracking-[6px]"
                 onClick={async () => {
                   await swiperInstance.slideTo(index);
                   handleCloseMenu();
@@ -33,7 +33,7 @@ function Menu({ handleCloseMenu, swiperInstance }) {
           ))}
         </div>
         <div
-          className="absolute cursor-pointer right-0 top-0"
+          className="absolute transition-all hover:rotate-90 select-none cursor-pointer right-0 top-0 mx-[40px] my-[46px]"
           onClick={handleCloseMenu}
         >
           <svg

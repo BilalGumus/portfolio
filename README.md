@@ -6,7 +6,7 @@ Hi 👋, This is my portfolio website which is created with [NextJS](https://nex
 
 🔵 You can see live at vercel: https://bilalgumus.vercel.app/
 
-![bilalgumus](https://user-images.githubusercontent.com/57847805/206734816-c2632049-b7b9-46c7-9440-343fe679f811.png)
+![Bilal Gümüş Personal Website](https://user-images.githubusercontent.com/57847805/218793244-dab415bf-e104-432e-93bc-4cb7f7cd6812.png)
 
 > Screenshot from the website
 

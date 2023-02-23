@@ -3,18 +3,18 @@ function Contact() {
     <div className="flex h-full relative">
       <div className="h-screen grow flex justify-center items-center">
         <div className="text-center leading-none">
-          <h1 className="font-inter text-[48px] xs:text-[64px] font-bold mb-[16px] lg:mb-[32px]">
+          <h2 className="font-inter text-[48px] xs:text-[64px] font-bold mb-[16px] lg:mb-[32px]">
             Contact
-          </h1>
-          <h2 className="font-inter text-[18px] xs:text-[24px] font-normal mb-[72px] hover:underline">
+          </h2>
+          <h3 className="font-inter text-[18px] xs:text-[24px] font-normal mb-[72px] hover:underline">
             <a
               href="mailto:bilal.gumus@yahoo.com"
               alt="Send mail to Bilal Gümüş"
             >
               bilal.gumus@yahoo.com
             </a>
-          </h2>
-          <h6 className="flex justify-center gap-[24px] text-[#BBBBBB] font-inter text-[18px] font-normal">
+          </h3>
+          <h4 className="flex justify-center gap-[24px] text-[#BBBBBB] font-inter text-[18px] font-normal">
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -33,7 +33,7 @@ function Contact() {
             >
               LinkedIn
             </a>
-          </h6>
+          </h4>
         </div>
       </div>
     </div>

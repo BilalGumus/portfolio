@@ -28,12 +28,27 @@ export default function App() {
   return (
     <div>
       <Head>
-        <title>Bilal Gümüş | Personal Website</title>
+        <title>Bilal Gümüş - Personal Website - Portfolio, Resume & More</title>
         <meta
           name="description"
-          content="I am Bilal Gümüş and this is my personal website: Passionate Computer Engineer student who highly self-motivated to
-          create applications & ReactJS lover!"
+          content="Discover the portfolio, resume, and web development services of Bilal Gümüş, a talented and experienced web developer. Explore his work and get in touch today."
         />
+        <meta name="author" content="Bilal Gümüş" />
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="google" content="nositelinkssearchbox" />
+        <meta name="keywords" content="Personal website,Bilal Gümüş, Portfolio, Resume, Web development" />
+        <meta name="language" content="English" />
+        <meta name="distribution" content="web" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="msapplication-navbutton-color" content="#000000" />
+        <meta property="og:title" content="Bilal Gümüş - Personal Website - Portfolio, Resume & More" />
+        <meta property="og:description" content="Discover the portfolio, resume, and web development services of Bilal Gümüş, a talented and experienced web developer. Explore his work and get in touch today." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://bilalgumus.me/" />
+        <meta property="og:site_name" content="Bilal Gümüş - Personal Website - Portfolio, Resume & More" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://bilalgumus.me/"/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MenuButton onClick={handleOpenMenu} theme="dark" />

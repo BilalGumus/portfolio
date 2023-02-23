@@ -11,9 +11,9 @@ function Home() {
         <div className="gradient absolute"></div>
       </div>
       <div className="absolute bottom-[32px] right-[32px]">
-        <h1 className="self-end text-right font-inter leading-none text-[#424245] text-[32px]">
+        <h2 className="self-end text-right font-inter leading-none text-[#424245] text-[32px]">
           Frontend Web <br /> Developer
-        </h1>
+        </h2>
       </div>
     </div>
   );

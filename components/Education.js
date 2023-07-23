@@ -16,7 +16,7 @@ function Education() {
               2019-2023
             </h4>
             <h4 className="font-ptSerif text-[18px] md:text-[24px] font-normal leading-normal mt-[32px]">
-              CGPA 3.75/4.00
+              CGPA 3.77/4.00
             </h4>
           </div>
         </div>

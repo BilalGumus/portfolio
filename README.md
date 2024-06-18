@@ -1,14 +1,10 @@
 # Personal Website
 
-Hi 👋, This is my portfolio website which is created with [NextJS](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/) & [SwiperJS](https://swiperjs.com/).
+Hi 👋, This is my portfolio website which is created with [NextJS](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/) & more.
 
 ## Project
 
 🔵 You can see live at: https://bilalgumus.co
-
-![Bilal Gümüş Personal Website](https://user-images.githubusercontent.com/57847805/218793244-dab415bf-e104-432e-93bc-4cb7f7cd6812.png)
-
-> Screenshot from the website
 
 ### Instructions
 
@@ -17,6 +13,7 @@ This project was bootstrapped with [create-next-app](https://www.npmjs.com/packa
 #### View On Local
 
 First clone this repository.
+
 ```bash
 $ git clone https://github.com/BilalGumus/portfolio.git
 ```

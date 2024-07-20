@@ -32,7 +32,7 @@ export default function Main() {
           <h1
             data-aos="fade"
             data-aos-duration="2250"
-            className="animate-text bg-gradient-to-tr from-[--color-offWhite] via-zinc-400 to-[--color-offWhite] inline-block text-transparent bg-clip-text text-[40px] lg:text-[52px] 2xl:text-[64px] font-bold tracking-tight"
+            className="animate-text bg-gradient-to-tr from-[--color-black] via-[--color-white] to-[--color-black] inline-block text-transparent bg-clip-text text-[40px] lg:text-[52px] 2xl:text-[64px] font-bold tracking-tight"
           >
             <span lang="tr">Bilal Gümüş</span>
           </h1>

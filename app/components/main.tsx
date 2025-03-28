@@ -26,7 +26,7 @@ export default function Main() {
         >
           <span className="basis-[28px]"></span>
           <span>Portfolio</span>
-          <span className="text-right">2024</span>
+          <span className="text-right">2025</span>
         </div>
         <div className="flex flex-col items-center justify-center pt-[2dvh] font-geist h-full">
           <h1
@@ -139,10 +139,10 @@ export default function Main() {
           </div>
           <span></span>
           <a
-            href="https://www.bilalgumus.co/"
+            href="https://www.bilalgumus.net/"
             className="flex gap-1 justify-center items-center text-right lowercase hover:text-[--color-white] no-underline"
           >
-            <span>bilalgumus.co</span>
+            <span>bilalgumus.net</span>
           </a>
         </div>
       </div>

@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     description:
       "Discover the portfolio, resume, and web development services of Bilal Gümüş, a talented and experienced web developer. Explore his work and get in touch today.",
     type: "website",
-    url: "https://bilalgumus.co/",
+    url: "https://bilalgumus.net/",
     siteName: "Bilal Gümüş - Web Developer Personal Website & Resume",
   },
   alternates: {
-    canonical: "https://bilalgumus.co/",
+    canonical: "https://bilalgumus.net/",
   },
 };
 

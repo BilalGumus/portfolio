@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { useEffect, useState } from "react";
 
-export default function TurkeyClock() {
+export default function Clock() {
   const [time, setTime] = useState("");
 
   const updateTime = () => {
@@ -21,5 +21,5 @@ export default function TurkeyClock() {
     return () => clearInterval(interval);
   }, []);
 
-  return <span className="text-sm text-right">{time}</span>;
+  return <span className="w-full text-sm text-right">{time}</span>;
 }

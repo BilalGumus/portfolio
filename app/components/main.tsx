@@ -19,10 +19,8 @@ export default function Main() {
         transition={{ duration: 2 }}
         className="font-oswald uppercase flex flex-row justify-between text-sm text-left text-[--color-white] font-light"
       >
-        <span className="basis-[28px]"></span>
-        <span>Portfolio</span>
-        {/* <span className="text-right">
-        </span> */}
+        <span className="w-full hidden md:block"></span>
+        <span className="w-full text-left md:text-center">Portfolio</span>
         <Clock />
       </motion.div>
       <div className="h-full flex flex-col font-oswald">

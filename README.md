@@ -4,9 +4,9 @@ Hi 👋, This is my portfolio website which is created with [NextJS](https://nex
 
 ## Project
 
-🔵 You can see live at: https://bilalgumus.net
+🟠 You can see live at: https://bilalgumus.net
 
-![Bilal Gümüş Personal Website](https://github.com/BilalGumus/portfolio/assets/57847805/bcac6e92-83b9-4521-8c48-066249f23edd)
+![Bilal Gümüş Personal Website](https://github.com/user-attachments/assets/60eeabd3-9dce-4d2c-aff6-23dd3b82bb34)
 
 > Screenshot from the website
 

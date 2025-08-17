@@ -23,13 +23,13 @@
 
 ::-moz-selection {
   /* Code for Firefox */
-  color: var(--color-white);
-  background: var(--color-black);
+  color: var(--color-black);
+  background: var(--color-white);
 }
 
 ::selection {
-  color: var(--color-white);
-  background: var(--color-black);
+  color: var(--color-black);
+  background: var(--color-white);
 }
 
 body {
@@ -68,6 +68,6 @@ body {
   height: 100%;
   --gradient-color-1: #000000;
   --gradient-color-2: #000000;
-  --gradient-color-3: #000985;
+  --gradient-color-3: #ff861d;
   --gradient-color-4: #000000;
 }

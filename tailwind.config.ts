@@ -9,6 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        inter: ["var(--font-inter)"],
+        sentient: ["var(--font-sentient)"],
         oswald: ["var(--font-oswald)"],
         geist: ["var(--font-geist-sans)"],
       },

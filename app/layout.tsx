@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, PT_Serif, Geist } from "next/font/google";
+import { Analytics } from "@/app/components/analytics";
 import { GridLines } from "@/app/components/primitives";
 import { SiteFooter } from "@/app/components/site-footer";
 import { SiteHeader } from "@/app/components/site-header";
@@ -127,6 +128,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+
+        {/* Page views only, and only when the OpenPanel env vars are set. */}
+        <Analytics />
 
         <GridLines />
         <SiteHeader />

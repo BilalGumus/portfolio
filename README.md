@@ -6,7 +6,7 @@ Hi 👋, This is my portfolio website which is created with [NextJS](https://nex
 
 🟠 You can see live at: https://bilalgumus.net
 
-![Bilal Gümüş Personal Website](https://github.com/user-attachments/assets/60eeabd3-9dce-4d2c-aff6-23dd3b82bb34)
+![Bilal Gümüş Personal Website](./public/images/og.jpg)
 
 > Screenshot from the website
 

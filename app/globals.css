@@ -1,73 +1,742 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"); */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ==========================================================================
+   Bilal Gumus - portfolio
+   Design tokens. Single source of truth for colour, type, space, radius,
+   elevation and motion. Nothing below this block hard-codes a value.
+
+   Colour is authored in OKLCH so the neutral ramp steps are perceptually
+   even and the accent keeps its chroma when lightness is lifted for the
+   dark theme. Every text token clears WCAG 2.2 AA (4.5:1) against both
+   --color-bg and --color-surface in both themes; --color-border-control
+   clears 3:1 for SC 1.4.11 (non-text contrast).
+   ========================================================================== */
+
+/* The theme attribute is always written by the boot script in <head>, so the
+   dark variant only needs to test that attribute. */
+@custom-variant dark (&:where([data-theme="dark"] *));
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
-  --color-black: #000;
-  --color-blue: #0071e3;
-  --color-green: #00b982;
-  --color-greyDark: #86868b;
-  --color-greyLight: #efefef;
-  --color-greyLighter: #f8f8f8;
-  --color-offBlack: #0f1012;
-  --color-offWhite: #f5f5f7;
-  --color-orange: #ff5102;
-  --color-yellow: #fca311;
-  --color-white: #fff;
+  color-scheme: light;
+
+  /* --- surfaces ------------------------------------------------------- */
+  --color-bg: oklch(97.8% 0.005 80);
+  --color-surface: oklch(99.2% 0.003 80);
+  --color-surface-elevated: oklch(99.8% 0.002 80);
+  --color-surface-sunken: oklch(95.6% 0.006 80);
+
+  /* --- text ----------------------------------------------------------- */
+  --color-text-primary: oklch(22% 0.012 50); /* 16.3:1 on bg */
+  --color-text-secondary: oklch(44% 0.009 50); /*  7.3:1 on bg */
+  --color-text-tertiary: oklch(54.5% 0.008 50); /*  4.7:1 on bg */
+
+  /* --- lines ---------------------------------------------------------- */
+  --color-border: oklch(89.5% 0.005 80); /* hairlines, decorative  */
+  --color-border-strong: oklch(80% 0.006 80); /* emphasis rules         */
+  --color-border-control: oklch(64% 0.006 80); /* 3.2:1 - form controls  */
+  --color-grid-line: oklch(22% 0.012 50 / 0.055);
+
+  /* --- accent --------------------------------------------------------- */
+  --color-accent: oklch(
+    53.5% 0.175 40
+  ); /* 5.2:1 on bg, 4.7:1 on its own wash */
+  --color-accent-hover: oklch(47% 0.17 40);
+  --color-accent-contrast: oklch(98.5% 0.004 80); /* text on accent fill */
+  --color-accent-wash: oklch(53.5% 0.175 40 / 0.08);
+
+  /* --- elevation ------------------------------------------------------ */
+  --shadow-xs: 0 1px 2px -1px oklch(22% 0.012 50 / 0.07);
+  --shadow-sm:
+    0 1px 3px oklch(22% 0.012 50 / 0.05),
+    0 1px 2px -1px oklch(22% 0.012 50 / 0.05);
+  --shadow-md:
+    0 4px 14px -4px oklch(22% 0.012 50 / 0.09),
+    0 2px 5px -2px oklch(22% 0.012 50 / 0.05);
+  --shadow-overlay:
+    0 28px 70px -18px oklch(22% 0.012 50 / 0.24),
+    0 10px 26px -10px oklch(22% 0.012 50 / 0.13);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
-::-moz-selection {
-  /* Code for Firefox */
-  color: var(--color-black);
-  background: var(--color-white);
-}
+/* No-JS / pre-script fallback for people whose OS is set to dark. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
 
-::selection {
-  color: var(--color-black);
-  background: var(--color-white);
-}
+    --color-bg: oklch(16.5% 0.006 265);
+    --color-surface: oklch(20.5% 0.007 265);
+    --color-surface-elevated: oklch(24.5% 0.008 265);
+    --color-surface-sunken: oklch(13.5% 0.006 265);
 
-body {
-  /* overflow-x: hidden; */
-  color: rgb(var(--foreground-rgb));
-  font-family: var(--font-sans);
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+    --color-text-primary: oklch(95.5% 0.004 85);
+    --color-text-secondary: oklch(73.5% 0.006 265);
+    --color-text-tertiary: oklch(60.5% 0.008 265);
 
-::-webkit-scrollbar-track {
-  border-radius: 0.125rem;
-  background-color: rgb(0, 0, 0);
-}
-::-webkit-scrollbar {
-  width: 0.25rem;
-  border-radius: 0.125rem;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 0.125rem;
-  background-color: gray;
-}
+    --color-border: oklch(28.5% 0.008 265);
+    --color-border-strong: oklch(38.5% 0.01 265);
+    --color-border-control: oklch(50% 0.008 265);
+    --color-grid-line: oklch(95.5% 0.004 85 / 0.06);
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+    --color-accent: oklch(70.5% 0.155 45);
+    --color-accent-hover: oklch(77% 0.14 45);
+    --color-accent-contrast: oklch(16.5% 0.006 265);
+    --color-accent-wash: oklch(70.5% 0.155 45 / 0.12);
+
+    --shadow-xs: 0 1px 2px -1px oklch(0% 0 0 / 0.5);
+    --shadow-sm:
+      0 1px 3px oklch(0% 0 0 / 0.4), 0 1px 2px -1px oklch(0% 0 0 / 0.4);
+    --shadow-md:
+      0 4px 14px -4px oklch(0% 0 0 / 0.55), 0 2px 5px -2px oklch(0% 0 0 / 0.4);
+    --shadow-overlay:
+      0 28px 70px -18px oklch(0% 0 0 / 0.7),
+      0 10px 26px -10px oklch(0% 0 0 / 0.5);
   }
 }
 
-#gradient-canvas {
-  width: 100%;
-  height: 100%;
-  --gradient-color-1: #000000;
-  --gradient-color-2: #000000;
-  --gradient-color-3: #ff861d;
-  --gradient-color-4: #000000;
+/* Explicit choice. Listed last so it wins the source-order tie with :root. */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: oklch(16.5% 0.006 265);
+  --color-surface: oklch(20.5% 0.007 265);
+  --color-surface-elevated: oklch(24.5% 0.008 265);
+  --color-surface-sunken: oklch(13.5% 0.006 265);
+
+  --color-text-primary: oklch(95.5% 0.004 85);
+  --color-text-secondary: oklch(73.5% 0.006 265);
+  --color-text-tertiary: oklch(60.5% 0.008 265);
+
+  --color-border: oklch(28.5% 0.008 265);
+  --color-border-strong: oklch(38.5% 0.01 265);
+  --color-border-control: oklch(50% 0.008 265);
+  --color-grid-line: oklch(95.5% 0.004 85 / 0.06);
+
+  --color-accent: oklch(70.5% 0.155 45);
+  --color-accent-hover: oklch(77% 0.14 45);
+  --color-accent-contrast: oklch(16.5% 0.006 265);
+  --color-accent-wash: oklch(70.5% 0.155 45 / 0.12);
+
+  --shadow-xs: 0 1px 2px -1px oklch(0% 0 0 / 0.5);
+  --shadow-sm:
+    0 1px 3px oklch(0% 0 0 / 0.4), 0 1px 2px -1px oklch(0% 0 0 / 0.4);
+  --shadow-md:
+    0 4px 14px -4px oklch(0% 0 0 / 0.55), 0 2px 5px -2px oklch(0% 0 0 / 0.4);
+  --shadow-overlay:
+    0 28px 70px -18px oklch(0% 0 0 / 0.7), 0 10px 26px -10px oklch(0% 0 0 / 0.5);
+}
+
+/* ==========================================================================
+   Tailwind theme.
+
+   Split into two blocks on purpose:
+
+   `@theme inline` (colour) keeps the var() reference in the compiled utility,
+   so `text-primary` re-resolves when the theme attribute flips. That is what
+   removes every `dark:` variant from the markup. `inline` does not emit the
+   variable itself - which is fine, because the colour roles are declared on
+   :root above.
+
+   `@theme` (everything else) does emit its variables to :root, which the
+   hand-written CSS below relies on: var(--radius-xs) in the focus ring,
+   var(--ease-out) in the reveal transition, var(--text-meta) in the metadata
+   utility. These values do not change between themes, so there is nothing to
+   re-resolve.
+   ========================================================================== */
+@theme inline {
+  /* colour ------------------------------------------------------------- */
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-primary: var(--color-text-primary);
+  --color-secondary: var(--color-text-secondary);
+  --color-tertiary: var(--color-text-tertiary);
+  --color-line: var(--color-border);
+  --color-line-strong: var(--color-border-strong);
+  --color-line-control: var(--color-border-control);
+  --color-grid: var(--color-grid-line);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-contrast: var(--color-accent-contrast);
+  --color-accent-wash: var(--color-accent-wash);
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@theme {
+  /* typefaces ---------------------------------------------------------- */
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  /* The labelling voice. Georgia is the fallback rather than a generic serif:
+     it is the most widely installed screen serif, so a swap is undramatic. */
+  --font-serif: var(--font-pt-serif), Georgia, "Times New Roman", serif;
+  /* No monospace webfont is loaded. This exists only for genuine code. */
+  --font-mono:
+    ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Typographic scale. Large steps are fluid via clamp() so the hierarchy
+     holds from 320px to 1440px+ without a breakpoint per step. Tracking
+     tightens as size grows (optical compensation); metadata tracks open. */
+  --text-display: clamp(2.5rem, 5.8vw, 4.75rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 500;
+
+  --text-h1: clamp(1.875rem, 3.4vw, 2.75rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.028em;
+  --text-h1--font-weight: 500;
+
+  --text-h2: clamp(1.375rem, 2.1vw, 1.75rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.021em;
+  --text-h2--font-weight: 500;
+
+  --text-h3: 1.0625rem;
+  --text-h3--line-height: 1.35;
+  --text-h3--letter-spacing: -0.014em;
+  --text-h3--font-weight: 500;
+
+  --text-lead: clamp(1.0625rem, 1.35vw, 1.1875rem);
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: -0.012em;
+
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.7;
+  --text-body--letter-spacing: -0.003em;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+  --text-small--letter-spacing: -0.002em;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: 0;
+
+  /* The labelling step. A serif carries a label at its own size in normal
+     case, so this is larger and quieter than the tracked-out uppercase the
+     monospace needed to read as a label at 11px. */
+  --text-meta: 0.9375rem;
+  --text-meta--line-height: 1.35;
+  --text-meta--letter-spacing: 0.005em;
+
+  /* radius - deliberately near-square. Nothing here is a rounded card. */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+
+  /* elevation ---------------------------------------------------------- */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-overlay: var(--shadow-overlay);
+
+  /* motion - one easing family, four durations. Motion reports a state
+     change; it is never the reason an element exists. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Tailwind's `duration-*` utility resolves from the --transition-duration-*
+     namespace, so the tokens are registered there and mirrored as plain
+     --duration-* custom properties for use inside hand-written CSS. */
+  --transition-duration-instant: 90ms;
+  --transition-duration-fast: 150ms;
+  --transition-duration-base: 240ms;
+  --transition-duration-slow: 420ms;
+
+  --duration-instant: 90ms;
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 420ms;
+
+  /* layout ------------------------------------------------------------- */
+  --breakpoint-xs: 26.25rem; /* 420px */
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    /* Next 16 no longer overrides scroll-behavior during SPA navigation.
+       data-scroll-behavior="smooth" on <html> (see app/layout.tsx) opts back
+       in, so route changes stay instant while in-page anchors glide. */
+    scroll-behavior: smooth;
+    /* Clears the 4rem sticky header on #hash navigation, plus a little air.
+       This is the only anchor offset in the system - sections deliberately do
+       not also set scroll-margin-top, because the two would add up. */
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+    @apply font-sans;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    font-optical-sizing: auto;
+    /* cv05: l with a tail, for l/1/I legibility. ss03: round quotes. */
+    font-feature-settings:
+      "cv05" 1,
+      "ss03" 1,
+      "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-wrap: break-word;
+    @apply bg-background text-foreground;
+  }
+
+  /* Focus: visible, offset off the element, and 5.2:1 against the page in
+     light / 7:1 in dark, satisfying SC 2.4.13. Never removed. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-contrast);
+  }
+
+  /* Flipping the theme must be instant.
+     Colour utilities carry transitions for hover and state, and when every
+     token changes at once those transitions cross-fade the whole page - most
+     visibly in the header, where the nav, the toggle and the rule all ease
+     between two palettes and the switch feels like lag.
+     The theme setter stamps this attribute for one frame, which suppresses
+     transitions during the swap and leaves hover behaviour untouched. */
+  [data-theme-switching],
+  [data-theme-switching] *,
+  [data-theme-switching] *::before,
+  [data-theme-switching] *::after {
+    transition: none !important;
+  }
+
+  /* Figures line up in tables and metadata without shifting column width. */
+  th,
+  td,
+  time {
+    font-variant-numeric: tabular-nums;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  dialog::backdrop {
+    background-color: oklch(16.5% 0.006 265 / 0.38);
+    backdrop-filter: blur(2px);
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+/* The labelling voice: serif, normal case, at its own size. Used for section
+   numbers and names, field labels, captions and figure titles - anything that
+   names a thing rather than being the thing.
+
+   Deliberately not uppercase. A monospace needs caps and open tracking to
+   read as a label at 11px; a serif carries a label in normal case at its own
+   size. PT Serif is low-contrast and built for screen text, so it stays
+   sturdy here rather than thinning out the way a display serif would. */
+@utility meta {
+  font-family: var(--font-serif);
+  font-size: var(--text-meta);
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+  /* Lining figures sit better beside sentence-case text than the old tabular
+     monospace numerals did. */
+  font-variant-numeric: lining-nums;
+}
+
+/* For a label that is a note rather than a heading - figure captions and
+   annotation labels. PT Serif's italic is a drawn cut, not a slant. */
+@utility meta-italic {
+  font-family: var(--font-serif);
+  font-size: var(--text-meta);
+  line-height: 1.35;
+  font-style: italic;
+  letter-spacing: 0.005em;
+}
+
+/* Two pixels of horizontal air so glyphs never sit against a grid hairline.
+   Applied as padding on the column block, not as a margin or an offset: the
+   block's box still spans its columns exactly, so it stays aligned to the
+   drawn grid and only the text moves inward. Applied at one level per text
+   run, never nested, or the air doubles. */
+@utility grid-air {
+  padding-inline: 2px;
+}
+
+/* Widths that land on the page grid, for content that cannot use the grid
+   itself - a table, whose columns are sized rather than placed.
+   A section block spans nine of the page's twelve columns, so one column is
+   (100% - eight 24px gutters) / 9, and a run of n columns also swallows n
+   gutters. Declared here rather than as an arbitrary Tailwind value because a
+   slash inside `w-[...]` is parsed as the opacity modifier and the class is
+   silently dropped. */
+/* Each carries its own breakpoints rather than being paired with a `w-*`
+   utility at a variant, and the name avoids the core `w-` namespace: Tailwind
+   parses `w-grid-1` as the width utility with an unknown value and drops the
+   rule silently. Two width utilities on one element are also resolved by
+   the order Tailwind emits them, and a custom utility does not reliably sort
+   after a core one - so `w-24 lg:w-grid-1` silently kept the 24. One class,
+   nothing to override it. */
+/* Written as plain CSS on a data attribute rather than as a Tailwind utility.
+   `@utility w-grid-1` was silently dropped - `w-` is a core namespace, so
+   Tailwind parses the name as the width utility with an unknown value - and a
+   renamed utility paired with a `w-*` class at a variant loses the cascade
+   depending on emission order. A plain rule is emitted verbatim and cannot be
+   parsed away, which for three numbers is the right trade. */
+/* The widths themselves are applied inline in page.tsx; these properties only
+   carry the value. A stylesheet rule on the cell does not survive the fixed
+   table layout algorithm here, while an inline width does - so the value is
+   kept responsive with media queries and handed to the cell as a variable.
+   The calc() substitutes as raw tokens and resolves against the cell's own
+   containing block, which is the table - that is what makes the percentage
+   mean "of the table" rather than "of the page". */
+:root {
+  --tcol-1: 6rem;
+  --tcol-3: auto;
+}
+
+@media (width >= 40rem) {
+  :root {
+    --tcol-3: 18rem;
+  }
+}
+
+/* From 1024px the twelve-column grid engages and the columns are sized to it.
+   Years is one grid column plus its gutter, Role is three - which puts the
+   Detail column on a grid line.
+
+   Expressed as plain percentages of the table rather than the exact formula,
+   calc((100% - 192px) / 9 + 24px), because a calc() that mixes a percentage
+   with a length is not honoured for a fixed-layout table column: the browser
+   discards it and falls back to an equal split.
+
+   A percentage cannot track the grid exactly, since the gutters are a fixed
+   24px while the columns flex - the true share of one column plus its gutter
+   runs from 11.50% at 1024px to 11.40% at 1440px. These are biased a hair
+   wide on purpose, so the Detail column always lands just past its grid line
+   (measured 2-6px clear from 1024 to 1600) rather than just short of it.
+   Erring outward keeps air under the text; erring inward would put a glyph
+   on a hairline, which is the thing being fixed. */
+@media (width >= 64rem) {
+  :root {
+    --tcol-1: 11.1111%;
+    --tcol-3: 33.3333%;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Measure caps. Prose stops being comfortable much past 75 characters. */
+@utility measure {
+  max-width: 68ch;
+}
+
+@utility measure-tight {
+  max-width: 52ch;
+}
+
+@utility measure-wide {
+  max-width: 78ch;
+}
+
+/* A link that gains an underline on hover instead of losing one. */
+@utility link-underline {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+  transition:
+    text-decoration-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* ==========================================================================
+   Entrance motion
+
+   Elements start displaced and are released when an IntersectionObserver
+   sets [data-revealed]. The transition lives entirely in CSS; JS only ever
+   toggles attributes.
+
+   The hidden state is gated on [data-motion="armed"] on <html>, which the
+   boot script in <head> sets during HTML parsing - before any .reveal element
+   has been parsed, so there is no flash of visible-then-hidden content. With
+   JS disabled, or when reduced motion is requested, the attribute is never
+   written and every .reveal is simply visible.
+   ========================================================================== */
+.reveal {
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-motion="armed"] .reveal {
+  opacity: 0;
+  transform: translateY(0.75rem);
+}
+
+[data-motion="armed"] .reveal[data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Hero backdrop
+
+   components/shader.tsx renders an opaque, full-bleed WebGL image. Dropped in
+   raw it would be a picture the hero has to compete with, so it is treated as
+   a material instead: masked back to the empty lower-right of the composition,
+   dimmed, and blended into the page ground rather than laid on top of it.
+
+     multiply in light - the render is dark, so it inks the warm paper.
+     screen in dark    - only the bright refraction rims survive, as a glow.
+
+   The mask is deliberately absent behind the display line. The type keeps a
+   clean ground and the shader fills the space the layout left empty, which is
+   the only reason it earns a place on a page built around restraint.
+   ========================================================================== */
+.hero-backdrop {
+  /* A vignette: the render carries across the whole hero and only softens at
+     the outer edges, so nothing is held back from the top or the left.
+
+     One layer on purpose. Shaping it with separate horizontal and vertical
+     layers under `mask-composite: intersect` reads correctly but does not take
+     effect here - the layers union instead of intersecting, which lets
+     everything through. A single gradient needs no compositing.
+
+     Move the first stop up to widen the fully-visible area, down to pull the
+     fade further in from the edges. */
+  --hero-fade: radial-gradient(
+    88% 88% at 50% 50%,
+    #000 0%,
+    #000 68%,
+    rgb(0 0 0 / 0.6) 88%,
+    transparent 100%
+  );
+
+  /* The shader is grounded on white and multiplied, which leaves the page
+     exactly as it is wherever the render is flat and tints it wherever the
+     refraction falls - so the flat area needs no hiding. See hero-backdrop.tsx
+     for why white and black are the two grounds that survive the pipeline.
+
+     A touch under full strength: enough to take the last of the hard edge off
+     the refraction without dimming it back into a wash. The flat ground is the
+     blend's neutral either way, so lowering this only softens the visible
+     part - it cannot reintroduce a seam. */
+  opacity: 0.85;
+  mix-blend-mode: multiply;
+  mask-image: var(--hero-fade);
+  -webkit-mask-image: var(--hero-fade);
+
+  /* No transform. It existed only to push the render's core into the corner
+     the old diagonal mask revealed; with a vignette the whole frame is visible,
+     so the render sits where it is drawn - and it stays at 1:1, which keeps the
+     rods as thin as the shader draws them instead of scaling them up. */
+}
+
+/* Dark inverts the pair: grounded on black and screened. */
+[data-theme="dark"] .hero-backdrop {
+  mix-blend-mode: screen;
+}
+
+/* Belt and braces: the component is not mounted under reduced motion, but if
+   it ever is, it should not be painted either. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop {
+    display: none;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ==========================================================================
+   Reduced motion - honoured globally rather than per component. Transitions
+   collapse to a near-instant change so state is still legible with no travel.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  [data-motion="armed"] .reveal,
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }

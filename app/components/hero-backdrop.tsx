@@ -23,10 +23,10 @@ import { useTheme } from "./theme";
  *    asking not to receive - and there is nothing to explain by animating it,
  *    so the honest response is to leave it out rather than slow it down.
  *
- * 3. Restraint on small screens. Below 768px it is not mounted either: the
- *    hero is a single tight column there with no empty space for the shader to
- *    occupy, and a full-viewport fragment shader is a real battery cost on a
- *    phone.
+ * 3. Restraint on small screens. Below 768px it is not mounted either: a
+ *    full-viewport fragment shader is a real battery cost on a phone, and the
+ *    hero carries itself there without it - the ground falls back to the
+ *    static lavender glow drawn by `.hero-glow` in globals.css.
  */
 const Shader = dynamic(
   () => import("@/components/shader").then((m) => m.Shader),
@@ -81,18 +81,25 @@ const serverSnapshot = () => false;
  * So the render matches the page by construction rather than by calibration,
  * in both themes, at any page colour.
  *
- * The `tint` is the accent token in dark and a light tint of it in light, and
+ * The `tint` is the lavender role, and it is lighter in light than in dark -
  * that asymmetry is the blend mode's doing rather than a colour choice. Under
- * `multiply` the render *is* the multiplier, so handing it the accent itself -
- * a dark burnt orange, darker still once three converts it to linear - drives
- * the paper down towards black wherever the main colour falls. A light tint
- * multiplies to the same hue without the darkness. Dark uses `screen`, where
- * the accent adds light rather than removing it, so there it is passed
- * straight through untouched.
+ * `multiply` the render *is* the multiplier, so handing it the full lavender
+ * (--color-lavender, darker still once three converts it to linear) would
+ * drive the paper down towards grey wherever the main colour falls. A pale
+ * cut multiplies to the same hue without the dirt. Dark uses `screen`, where
+ * the colour adds light rather than removing it, so there the lavender is
+ * passed through close to the token.
+ *
+ *   light - between --color-lavender and its soft cut, oklch(84% 0.07 295)
+ *   dark  - --color-lavender, oklch(80% 0.09 295)
+ *
+ * The shader also rotates the hue of its refraction rims away from the tint,
+ * so lavender fans out into pink and blue at the rod edges. That is the
+ * shader's own iridescence, not extra palette colours.
  */
 const PALETTE = {
-  light: { tint: "#fbd9c6", bg: "#ffffff", shadow: "#ffffff" },
-  dark: { tint: "#ed7c45", bg: "#000000", shadow: "#000000" },
+  light: { tint: "#d2c6f8", bg: "#ffffff", shadow: "#ffffff" },
+  dark: { tint: "#b8a5f2", bg: "#000000", shadow: "#000000" },
 } as const;
 
 /**

@@ -40,10 +40,10 @@ export function ButtonSpecimen() {
         </Meta>
         <div className="flex flex-wrap items-center gap-3">
           <Button variant="secondary" size="sm">
-            Small — 32px
+            Small, 32px
           </Button>
           <Button variant="secondary" size="md">
-            Medium — 40px
+            Medium, 40px
           </Button>
         </div>
       </div>
@@ -65,7 +65,7 @@ export function ButtonSpecimen() {
       <p className="measure text-caption text-tertiary">
         Every control is at least 32px tall and gains a 2px accent focus ring
         offset from its edge. Try reaching these with Tab rather than the
-        pointer — the focus state is designed, not inherited.
+        pointer: the focus state is designed, not inherited.
       </p>
     </div>
   );
@@ -197,7 +197,7 @@ export function DialogSpecimen() {
         Both are native <code className="font-mono text-[0.8em]">&lt;dialog&gt;</code>{" "}
         elements opened with <code className="font-mono text-[0.8em]">showModal()</code>.
         The focus trap, Escape handling, background inerting and focus
-        restoration come from the platform rather than from application code —
+        restoration come from the platform rather than from application code,
         which is why they are correct.
       </p>
 
@@ -267,7 +267,7 @@ export function ToastSpecimen() {
       <p className="measure text-caption text-tertiary">
         role=&quot;status&quot; rather than role=&quot;alert&quot;: a confirmation should be
         announced without interrupting what is being read. Reserved for results
-        that happen away from the pointer — anything confirmable in place is
+        that happen away from the pointer. Anything confirmable in place is
         confirmed in place.
       </p>
     </div>
@@ -323,7 +323,7 @@ export function MotionSpecimen() {
       <p className="measure text-caption text-tertiary">
         One easing family, four durations. If your system is set to reduce
         motion, every transition on this site collapses to 1ms at the
-        stylesheet level — including these.
+        stylesheet level, including these.
       </p>
     </div>
   );

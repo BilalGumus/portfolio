@@ -1,19 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Container, cx } from "./primitives";
+import { ButtonLink, Container, cx } from "./primitives";
 import { ThemeToggle } from "./theme";
-import { nav, profile } from "@/app/lib/site";
+import { links, nav, profile } from "@/app/lib/site";
+import { projects } from "@/app/lib/work";
 
 /** Section ids the nav points at, in document order. */
-const SPY_SECTIONS = ["work", "about", "approach", "experience", "capabilities", "contact"];
+const SPY_SECTIONS = nav.map((item) => item.section);
 
 /**
- * Highlights the nav item for the section currently being read.
- *
- * Uses an observer rather than a scroll handler, so nothing runs on every
- * frame.
+ * Highlights the nav item for the section currently being read. An observer
+ * rather than a scroll handler, so nothing runs on every frame.
  */
 function useActiveSection() {
   const [active, setActive] = useState<string | null>(null);
@@ -30,8 +30,6 @@ function useActiveSection() {
         for (const entry of entries) {
           visible.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
         }
-        // The section occupying the most of the reading band wins, which is
-        // stabler than "first one intersecting" on short sections.
         let best: string | null = null;
         let bestRatio = 0;
         for (const [id, ratio] of visible) {
@@ -42,8 +40,6 @@ function useActiveSection() {
         }
         setActive(best);
       },
-      // A band across the middle of the viewport, so the highlight tracks
-      // what is being read rather than what has just appeared.
       { rootMargin: "-25% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
     );
 
@@ -54,12 +50,7 @@ function useActiveSection() {
   return active;
 }
 
-/**
- * Detects whether the header has left the top of the document.
- *
- * A zero-height sentinel above the header is observed instead of listening to
- * scroll, so the hairline appears without running a handler on every frame.
- */
+/** Whether the header has left the top of the document. */
 function useStuck() {
   const sentinel = useRef<HTMLDivElement>(null);
   const [stuck, setStuck] = useState(false);
@@ -67,10 +58,9 @@ function useStuck() {
   useEffect(() => {
     const node = sentinel.current;
     if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setStuck(!entry.isIntersecting),
-      { threshold: 1 },
-    );
+    const observer = new IntersectionObserver(([entry]) => setStuck(!entry.isIntersecting), {
+      threshold: 1,
+    });
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
@@ -78,20 +68,68 @@ function useStuck() {
   return { sentinel, stuck };
 }
 
+const navLink =
+  "inline-flex h-8 items-center gap-1 rounded-full px-3 text-caption transition-colors duration-fast ease-standard";
+
+/**
+ * The Work menu. Opens on hover and on keyboard focus - focus-within keeps it
+ * open while tabbing through the projects, so it needs no script and no
+ * disclosure state. The "Work" link itself still jumps to the section, so the
+ * menu is a shortcut, never the only way in.
+ */
+function WorkMenu({ current }: { current: boolean }) {
+  return (
+    <div className="group/menu relative">
+      <a
+        href="#work"
+        aria-current={current ? "true" : undefined}
+        className={cx(navLink, current ? "text-primary" : "text-secondary hover:text-primary")}
+      >
+        Work
+        <ChevronDown
+          aria-hidden
+          className="size-3 opacity-60 transition-transform duration-base group-hover/menu:rotate-180 group-focus-within/menu:rotate-180"
+          strokeWidth={2}
+        />
+      </a>
+
+      <div
+        className={cx(
+          "invisible absolute top-full left-0 pt-2 opacity-0",
+          "translate-y-1 transition-[opacity,transform,visibility] duration-base ease-out",
+          "group-hover/menu:visible group-hover/menu:translate-y-0 group-hover/menu:opacity-100",
+          "group-focus-within/menu:visible group-focus-within/menu:translate-y-0 group-focus-within/menu:opacity-100",
+        )}
+      >
+        <ul className="w-80 rounded-2xl border border-line bg-surface-elevated p-1.5 shadow-overlay">
+          {projects.map((project) => (
+            <li key={project.slug}>
+              <a
+                href={`#${project.slug}`}
+                className="block rounded-xl px-3 py-2.5 transition-colors duration-fast hover:bg-surface-sunken"
+              >
+                <span className="block text-caption font-medium text-primary">{project.name}</span>
+                <span className="block truncate text-micro text-tertiary">{project.tagline}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Site header.
  *
- * One page, so the nav is a set of in-page anchors with the current section
- * highlighted.
- *
- * Below 640px the anchors are dropped rather than folded into a menu. There
- * are six sections on a single scrolling page, and the hero already carries
- * the two things a visitor arrives wanting - the work and the email address -
- * as buttons. A drawer would be machinery in place of a scroll.
+ * Below 768px the section links are dropped rather than folded into a menu:
+ * it is one scrolling page, and the hero already carries the two things a
+ * visitor arrives wanting - the work and a way to get in touch.
  */
 export function SiteHeader() {
   const { sentinel, stuck } = useStuck();
   const activeSection = useActiveSection();
+  const github = links.find((link) => link.label === "GitHub");
 
   return (
     <>
@@ -100,63 +138,73 @@ export function SiteHeader() {
       <header
         data-stuck={stuck || undefined}
         className={cx(
-          "sticky top-0 z-40 bg-bg",
-          // The rule only exists once there is content beneath it to separate.
-          "border-b border-transparent transition-colors duration-base ease-standard",
-          "data-stuck:border-line",
+          "sticky top-0 z-40 border-b border-transparent bg-bg/80 backdrop-blur-xl",
+          "transition-colors duration-base ease-standard data-stuck:border-line",
         )}
       >
         <Container>
-          <div className="grid-air flex h-16 items-center justify-between gap-4">
-            {/* Identity. Doubles as the link back to the top. */}
-            <Link
-              href="/"
-              className="flex items-baseline gap-2.5 rounded-sm"
-              aria-label={`${profile.name} — home`}
-            >
-              <span className="text-h3 text-primary">{profile.name}</span>
-              <span className="meta hidden text-tertiary md:inline">
-                {profile.shortRole}
-              </span>
-            </Link>
+          <div className="flex h-14 items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <Link
+                href="/"
+                className="rounded-full"
+                aria-label={`${profile.name}, home`}
+              >
+                <span className="text-[0.9375rem] font-medium tracking-tight text-primary">
+                  {profile.name}
+                </span>
+              </Link>
 
-            <div className="flex items-center gap-1 sm:gap-2">
-              <nav aria-label="Primary" className="hidden sm:block">
-                <ul className="flex items-center gap-0.5 lg:gap-1">
+              <nav aria-label="Primary" className="hidden md:block">
+                <ul className="flex items-center">
                   {nav.map((item) => {
                     const current = activeSection === item.section;
                     return (
                       <li key={item.href}>
-                        <a
-                          href={item.href}
-                          aria-current={current ? "true" : undefined}
-                          className={cx(
-                            "relative inline-flex h-9 items-center rounded-sm px-2 text-small lg:px-2.5",
-                            "transition-colors duration-fast ease-standard",
-                            current ? "text-primary" : "text-secondary hover:text-primary",
-                          )}
-                        >
-                          {item.label}
-                          {/* Colour already carries the state; the rule is
-                              reinforcement, never the only channel. */}
-                          <span
-                            aria-hidden
+                        {item.section === "work" ? (
+                          <WorkMenu current={current} />
+                        ) : (
+                          <a
+                            href={item.href}
+                            aria-current={current ? "true" : undefined}
                             className={cx(
-                              "absolute inset-x-2 bottom-1 h-px origin-left bg-accent lg:inset-x-2.5",
-                              "transition-transform duration-base ease-out",
-                              current ? "scale-x-100" : "scale-x-0",
+                              navLink,
+                              current ? "text-primary" : "text-secondary hover:text-primary",
                             )}
-                          />
-                        </a>
+                          >
+                            {item.label}
+                          </a>
+                        )}
                       </li>
                     );
                   })}
                 </ul>
               </nav>
+            </div>
 
-              <span aria-hidden className="mx-1 hidden h-5 w-px bg-line sm:block" />
-
+            <div className="flex items-center gap-1.5">
               <ThemeToggle />
+              {github && (
+                <a
+                  href={github.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cx(navLink, "text-secondary hover:text-primary max-sm:hidden")}
+                >
+                  GitHub
+                </a>
+              )}
+              <ButtonLink
+                href={`mailto:${profile.email}`}
+                variant="primary"
+                size="sm"
+                className="max-sm:hidden"
+              >
+                Email me
+              </ButtonLink>
+              <ButtonLink href="#contact" variant="accent" size="sm">
+                Let&apos;s talk
+              </ButtonLink>
             </div>
           </div>
         </Container>

@@ -212,7 +212,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={label}
       title={label}
       className={cx(
-        "inline-flex size-9 items-center justify-center rounded-sm text-secondary",
+        "inline-flex size-8 items-center justify-center rounded-full text-secondary",
         "transition-colors duration-fast ease-standard hover:bg-surface-sunken hover:text-primary",
         className,
       )}

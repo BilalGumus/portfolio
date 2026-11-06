@@ -110,7 +110,7 @@ export function WorkRow({ project, position }: { project: Project; position: num
             <p className="mt-6 measure-tight text-caption text-tertiary">
               <span className="meta text-accent">Outcome</span>{" "}
               <span className="ml-1">
-                — placeholder, pending figures that can be shared publicly.
+                Placeholder, pending figures that can be shared publicly.
               </span>
             </p>
           )}

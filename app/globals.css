@@ -3,92 +3,83 @@
 @import "shadcn/tailwind.css";
 
 /* ==========================================================================
-   Bilal Gumus - portfolio
-   Design tokens. Single source of truth for colour, type, space, radius,
-   elevation and motion. Nothing below this block hard-codes a value.
+   Bilal Gumus - portfolio, 2027
 
-   Colour is authored in OKLCH so the neutral ramp steps are perceptually
-   even and the accent keeps its chroma when lightness is lifted for the
-   dark theme. Every text token clears WCAG 2.2 AA (4.5:1) against both
-   --color-bg and --color-surface in both themes; --color-border-control
-   clears 3:1 for SC 1.4.11 (non-text contrast).
+   A quiet, product-site register: a cool off-white ground, near-black ink,
+   one soft lavender used as a fill, and large rounded "studio" cards that
+   carry the work. Type is Inter for everything read and Newsreader for the
+   two or three lines that are spoken - the hero, the about lead, the contact
+   line.
+
+   Colour is authored in OKLCH. Every text token clears WCAG 2.2 AA (4.5:1)
+   against --color-bg and --color-surface in both themes. The lavender is a
+   fill only: text set on it is always the ink colour, and text that needs to
+   read as "accent" uses --color-accent, a darker cut of the same hue.
    ========================================================================== */
 
-/* The theme attribute is always written by the boot script in <head>, so the
-   dark variant only needs to test that attribute. */
+/* The theme attribute is always written by the boot script in <head>. */
 @custom-variant dark (&:where([data-theme="dark"] *));
 
 :root {
   color-scheme: light;
 
   /* --- surfaces ------------------------------------------------------- */
-  --color-bg: oklch(97.8% 0.005 80);
-  --color-surface: oklch(99.2% 0.003 80);
-  --color-surface-elevated: oklch(99.8% 0.002 80);
-  --color-surface-sunken: oklch(95.6% 0.006 80);
+  --color-bg: oklch(97.8% 0.0025 286);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-elevated: oklch(100% 0 0);
+  --color-surface-sunken: oklch(95.2% 0.003 286);
 
   /* --- text ----------------------------------------------------------- */
-  --color-text-primary: oklch(22% 0.012 50); /* 16.3:1 on bg */
-  --color-text-secondary: oklch(44% 0.009 50); /*  7.3:1 on bg */
-  --color-text-tertiary: oklch(54.5% 0.008 50); /*  4.7:1 on bg */
+  --color-text-primary: oklch(19% 0.006 286); /* 16.8:1 on bg */
+  --color-text-secondary: oklch(44% 0.007 286); /*  7.9:1 on bg */
+  --color-text-tertiary: oklch(54% 0.007 286); /*  4.9:1 on bg */
 
   /* --- lines ---------------------------------------------------------- */
-  --color-border: oklch(89.5% 0.005 80); /* hairlines, decorative  */
-  --color-border-strong: oklch(80% 0.006 80); /* emphasis rules         */
-  --color-border-control: oklch(64% 0.006 80); /* 3.2:1 - form controls  */
-  --color-grid-line: oklch(22% 0.012 50 / 0.055);
+  --color-border: oklch(91.5% 0.003 286);
+  --color-border-strong: oklch(85% 0.004 286);
+  --color-border-control: oklch(64% 0.005 286); /* 3.1:1 - form controls */
+  --color-grid-line: oklch(19% 0.006 286 / 0.05);
 
-  /* --- accent --------------------------------------------------------- */
-  --color-accent: oklch(
-    53.5% 0.175 40
-  ); /* 5.2:1 on bg, 4.7:1 on its own wash */
-  --color-accent-hover: oklch(47% 0.17 40);
-  --color-accent-contrast: oklch(98.5% 0.004 80); /* text on accent fill */
-  --color-accent-wash: oklch(53.5% 0.175 40 / 0.08);
+  /* --- ink (the black pill) ------------------------------------------ */
+  --color-ink: oklch(19% 0.006 286);
+  --color-ink-hover: oklch(30% 0.008 286);
+  --color-ink-contrast: oklch(99% 0 0);
+
+  /* --- lavender ------------------------------------------------------- */
+  /* Fill. Text on it is always --color-ink (11:1). */
+  --color-lavender: oklch(81% 0.085 295);
+  --color-lavender-hover: oklch(77% 0.1 295);
+  --color-lavender-soft: oklch(93.5% 0.03 295);
+  /* Ink cut of the same hue, for text and focus. 5.6:1 on bg. */
+  --color-accent: oklch(50% 0.17 292);
+  --color-accent-hover: oklch(44% 0.17 292);
+  --color-accent-contrast: oklch(99% 0 0);
+  --color-accent-wash: oklch(50% 0.17 292 / 0.08);
+
+  /* --- studio cards --------------------------------------------------- */
+  /* Lightness of the two gradient stops; the hue comes from each card. */
+  --studio-l1: 94%;
+  --studio-l2: 82%;
+  --studio-c: 0.03;
+  --tray-l: 75%;
+  --tray-c: 0.085;
+  --studio-shade: oklch(18% 0.02 286 / 0.5);
 
   /* --- elevation ------------------------------------------------------ */
-  --shadow-xs: 0 1px 2px -1px oklch(22% 0.012 50 / 0.07);
+  --shadow-xs: 0 1px 2px -1px oklch(19% 0.006 286 / 0.08);
   --shadow-sm:
-    0 1px 3px oklch(22% 0.012 50 / 0.05),
-    0 1px 2px -1px oklch(22% 0.012 50 / 0.05);
+    0 1px 3px oklch(19% 0.006 286 / 0.06),
+    0 1px 2px -1px oklch(19% 0.006 286 / 0.06);
   --shadow-md:
-    0 4px 14px -4px oklch(22% 0.012 50 / 0.09),
-    0 2px 5px -2px oklch(22% 0.012 50 / 0.05);
+    0 10px 30px -12px oklch(19% 0.006 286 / 0.14),
+    0 2px 6px -2px oklch(19% 0.006 286 / 0.06);
   --shadow-overlay:
-    0 28px 70px -18px oklch(22% 0.012 50 / 0.24),
-    0 10px 26px -10px oklch(22% 0.012 50 / 0.13);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+    0 28px 70px -18px oklch(19% 0.006 286 / 0.24),
+    0 10px 26px -10px oklch(19% 0.006 286 / 0.13);
+  /* The device mocks sit on their tray with a long, soft contact shadow. */
+  --shadow-device:
+    0 40px 60px -30px oklch(18% 0.02 286 / 0.45),
+    0 18px 30px -18px oklch(18% 0.02 286 / 0.35);
 }
 
 /* No-JS / pre-script fallback for people whose OS is set to dark. */
@@ -96,33 +87,44 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --color-bg: oklch(16.5% 0.006 265);
-    --color-surface: oklch(20.5% 0.007 265);
-    --color-surface-elevated: oklch(24.5% 0.008 265);
-    --color-surface-sunken: oklch(13.5% 0.006 265);
+    --color-bg: oklch(15.5% 0.004 286);
+    --color-surface: oklch(19.5% 0.005 286);
+    --color-surface-elevated: oklch(23% 0.006 286);
+    --color-surface-sunken: oklch(18% 0.005 286);
 
-    --color-text-primary: oklch(95.5% 0.004 85);
-    --color-text-secondary: oklch(73.5% 0.006 265);
-    --color-text-tertiary: oklch(60.5% 0.008 265);
+    --color-text-primary: oklch(96% 0.002 286);
+    --color-text-secondary: oklch(74% 0.006 286);
+    --color-text-tertiary: oklch(62% 0.007 286);
 
-    --color-border: oklch(28.5% 0.008 265);
-    --color-border-strong: oklch(38.5% 0.01 265);
-    --color-border-control: oklch(50% 0.008 265);
-    --color-grid-line: oklch(95.5% 0.004 85 / 0.06);
+    --color-border: oklch(26% 0.006 286);
+    --color-border-strong: oklch(33% 0.008 286);
+    --color-border-control: oklch(50% 0.008 286);
+    --color-grid-line: oklch(96% 0.002 286 / 0.05);
 
-    --color-accent: oklch(70.5% 0.155 45);
-    --color-accent-hover: oklch(77% 0.14 45);
-    --color-accent-contrast: oklch(16.5% 0.006 265);
-    --color-accent-wash: oklch(70.5% 0.155 45 / 0.12);
+    --color-ink: oklch(96% 0.002 286);
+    --color-ink-hover: oklch(86% 0.004 286);
+    --color-ink-contrast: oklch(15.5% 0.004 286);
+
+    --color-lavender: oklch(80% 0.09 295);
+    --color-lavender-hover: oklch(85% 0.08 295);
+    --color-lavender-soft: oklch(27% 0.04 295);
+    --color-accent: oklch(80% 0.1 295);
+    --color-accent-hover: oklch(86% 0.08 295);
+    --color-accent-contrast: oklch(15.5% 0.004 286);
+    --color-accent-wash: oklch(80% 0.1 295 / 0.12);
+
+    --studio-l1: 34%;
+    --studio-l2: 22%;
+    --studio-c: 0.035;
+    --tray-l: 40%;
+    --tray-c: 0.045;
+    --studio-shade: oklch(8% 0.01 286 / 0.6);
 
     --shadow-xs: 0 1px 2px -1px oklch(0% 0 0 / 0.5);
-    --shadow-sm:
-      0 1px 3px oklch(0% 0 0 / 0.4), 0 1px 2px -1px oklch(0% 0 0 / 0.4);
-    --shadow-md:
-      0 4px 14px -4px oklch(0% 0 0 / 0.55), 0 2px 5px -2px oklch(0% 0 0 / 0.4);
-    --shadow-overlay:
-      0 28px 70px -18px oklch(0% 0 0 / 0.7),
-      0 10px 26px -10px oklch(0% 0 0 / 0.5);
+    --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.4), 0 1px 2px -1px oklch(0% 0 0 / 0.4);
+    --shadow-md: 0 10px 30px -12px oklch(0% 0 0 / 0.6), 0 2px 6px -2px oklch(0% 0 0 / 0.4);
+    --shadow-overlay: 0 28px 70px -18px oklch(0% 0 0 / 0.7), 0 10px 26px -10px oklch(0% 0 0 / 0.5);
+    --shadow-device: 0 40px 60px -30px oklch(0% 0 0 / 0.7), 0 18px 30px -18px oklch(0% 0 0 / 0.55);
   }
 }
 
@@ -130,53 +132,77 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --color-bg: oklch(16.5% 0.006 265);
-  --color-surface: oklch(20.5% 0.007 265);
-  --color-surface-elevated: oklch(24.5% 0.008 265);
-  --color-surface-sunken: oklch(13.5% 0.006 265);
+  --color-bg: oklch(15.5% 0.004 286);
+  --color-surface: oklch(19.5% 0.005 286);
+  --color-surface-elevated: oklch(23% 0.006 286);
+  --color-surface-sunken: oklch(18% 0.005 286);
 
-  --color-text-primary: oklch(95.5% 0.004 85);
-  --color-text-secondary: oklch(73.5% 0.006 265);
-  --color-text-tertiary: oklch(60.5% 0.008 265);
+  --color-text-primary: oklch(96% 0.002 286);
+  --color-text-secondary: oklch(74% 0.006 286);
+  --color-text-tertiary: oklch(62% 0.007 286);
 
-  --color-border: oklch(28.5% 0.008 265);
-  --color-border-strong: oklch(38.5% 0.01 265);
-  --color-border-control: oklch(50% 0.008 265);
-  --color-grid-line: oklch(95.5% 0.004 85 / 0.06);
+  --color-border: oklch(26% 0.006 286);
+  --color-border-strong: oklch(33% 0.008 286);
+  --color-border-control: oklch(50% 0.008 286);
+  --color-grid-line: oklch(96% 0.002 286 / 0.05);
 
-  --color-accent: oklch(70.5% 0.155 45);
-  --color-accent-hover: oklch(77% 0.14 45);
-  --color-accent-contrast: oklch(16.5% 0.006 265);
-  --color-accent-wash: oklch(70.5% 0.155 45 / 0.12);
+  --color-ink: oklch(96% 0.002 286);
+  --color-ink-hover: oklch(86% 0.004 286);
+  --color-ink-contrast: oklch(15.5% 0.004 286);
+
+  --color-lavender: oklch(80% 0.09 295);
+  --color-lavender-hover: oklch(85% 0.08 295);
+  --color-lavender-soft: oklch(27% 0.04 295);
+  --color-accent: oklch(80% 0.1 295);
+  --color-accent-hover: oklch(86% 0.08 295);
+  --color-accent-contrast: oklch(15.5% 0.004 286);
+  --color-accent-wash: oklch(80% 0.1 295 / 0.12);
+
+  --studio-l1: 34%;
+  --studio-l2: 22%;
+  --studio-c: 0.035;
+  --tray-l: 40%;
+  --tray-c: 0.045;
+  --studio-shade: oklch(8% 0.01 286 / 0.6);
 
   --shadow-xs: 0 1px 2px -1px oklch(0% 0 0 / 0.5);
-  --shadow-sm:
-    0 1px 3px oklch(0% 0 0 / 0.4), 0 1px 2px -1px oklch(0% 0 0 / 0.4);
-  --shadow-md:
-    0 4px 14px -4px oklch(0% 0 0 / 0.55), 0 2px 5px -2px oklch(0% 0 0 / 0.4);
-  --shadow-overlay:
-    0 28px 70px -18px oklch(0% 0 0 / 0.7), 0 10px 26px -10px oklch(0% 0 0 / 0.5);
+  --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.4), 0 1px 2px -1px oklch(0% 0 0 / 0.4);
+  --shadow-md: 0 10px 30px -12px oklch(0% 0 0 / 0.6), 0 2px 6px -2px oklch(0% 0 0 / 0.4);
+  --shadow-overlay: 0 28px 70px -18px oklch(0% 0 0 / 0.7), 0 10px 26px -10px oklch(0% 0 0 / 0.5);
+  --shadow-device: 0 40px 60px -30px oklch(0% 0 0 / 0.7), 0 18px 30px -18px oklch(0% 0 0 / 0.55);
+}
+
+/* shadcn's variables, pointed at the roles above so anything added from the
+   registry later inherits this palette instead of shipping its own. Because
+   they are var() references they re-resolve per theme on their own. */
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-surface-elevated);
+  --popover-foreground: var(--color-text-primary);
+  --primary: var(--color-ink);
+  --primary-foreground: var(--color-ink-contrast);
+  --secondary: var(--color-surface-sunken);
+  --secondary-foreground: var(--color-text-primary);
+  --muted: var(--color-surface-sunken);
+  --muted-foreground: var(--color-text-secondary);
+  --accent: var(--color-lavender-soft);
+  --accent-foreground: var(--color-text-primary);
+  --destructive: oklch(57.7% 0.245 27.3);
+  --border: var(--color-border);
+  --input: var(--color-border-strong);
+  --ring: var(--color-accent);
+  --radius: 0.75rem;
 }
 
 /* ==========================================================================
-   Tailwind theme.
-
-   Split into two blocks on purpose:
-
-   `@theme inline` (colour) keeps the var() reference in the compiled utility,
-   so `text-primary` re-resolves when the theme attribute flips. That is what
-   removes every `dark:` variant from the markup. `inline` does not emit the
-   variable itself - which is fine, because the colour roles are declared on
-   :root above.
-
-   `@theme` (everything else) does emit its variables to :root, which the
-   hand-written CSS below relies on: var(--radius-xs) in the focus ring,
-   var(--ease-out) in the reveal transition, var(--text-meta) in the metadata
-   utility. These values do not change between themes, so there is nothing to
-   re-resolve.
+   Tailwind theme
+   `@theme inline` for colour, so utilities keep the var() and re-resolve when
+   the theme attribute flips - which is what keeps `dark:` out of the markup.
    ========================================================================== */
 @theme inline {
-  /* colour ------------------------------------------------------------- */
   --color-bg: var(--color-bg);
   --color-surface: var(--color-surface);
   --color-surface-elevated: var(--color-surface-elevated);
@@ -188,131 +214,114 @@
   --color-line-strong: var(--color-border-strong);
   --color-line-control: var(--color-border-control);
   --color-grid: var(--color-grid-line);
+  --color-ink: var(--color-ink);
+  --color-ink-hover: var(--color-ink-hover);
+  --color-ink-contrast: var(--color-ink-contrast);
+  --color-lavender: var(--color-lavender);
+  --color-lavender-hover: var(--color-lavender-hover);
+  --color-lavender-soft: var(--color-lavender-soft);
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
   --color-accent-contrast: var(--color-accent-contrast);
   --color-accent-wash: var(--color-accent-wash);
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
+
+  /* shadcn roles */
   --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 }
 
 @theme {
   /* typefaces ---------------------------------------------------------- */
   --font-sans:
     var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  /* The labelling voice. Georgia is the fallback rather than a generic serif:
-     it is the most widely installed screen serif, so a swap is undramatic. */
-  --font-serif: var(--font-pt-serif), Georgia, "Times New Roman", serif;
-  /* No monospace webfont is loaded. This exists only for genuine code. */
+  /* The spoken voice. Georgia is the fallback because it is the most widely
+     installed screen serif, so a swap is undramatic. */
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
   --font-mono:
     ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* Typographic scale. Large steps are fluid via clamp() so the hierarchy
-     holds from 320px to 1440px+ without a breakpoint per step. Tracking
-     tightens as size grows (optical compensation); metadata tracks open. */
-  --text-display: clamp(2.5rem, 5.8vw, 4.75rem);
-  --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.035em;
-  --text-display--font-weight: 500;
+  /* Typographic scale. Large steps are fluid via clamp(). */
+  --text-display: clamp(2.25rem, 4.4vw, 3.5rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.022em;
+  --text-display--font-weight: 400;
 
-  --text-h1: clamp(1.875rem, 3.4vw, 2.75rem);
-  --text-h1--line-height: 1.05;
-  --text-h1--letter-spacing: -0.028em;
+  --text-h1: clamp(1.75rem, 3vw, 2.5rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.026em;
   --text-h1--font-weight: 500;
 
-  --text-h2: clamp(1.375rem, 2.1vw, 1.75rem);
-  --text-h2--line-height: 1.15;
-  --text-h2--letter-spacing: -0.021em;
+  --text-h2: clamp(1.375rem, 2vw, 1.625rem);
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.02em;
   --text-h2--font-weight: 500;
 
-  --text-h3: 1.0625rem;
-  --text-h3--line-height: 1.35;
-  --text-h3--letter-spacing: -0.014em;
+  --text-h3: 1rem;
+  --text-h3--line-height: 1.4;
+  --text-h3--letter-spacing: -0.012em;
   --text-h3--font-weight: 500;
 
-  --text-lead: clamp(1.0625rem, 1.35vw, 1.1875rem);
+  --text-lead: clamp(1.0625rem, 1.3vw, 1.1875rem);
   --text-lead--line-height: 1.6;
   --text-lead--letter-spacing: -0.012em;
 
   --text-body: 0.9375rem;
   --text-body--line-height: 1.7;
-  --text-body--letter-spacing: -0.003em;
+  --text-body--letter-spacing: -0.004em;
 
   --text-small: 0.875rem;
-  --text-small--line-height: 1.6;
-  --text-small--letter-spacing: -0.002em;
+  --text-small--line-height: 1.55;
+  --text-small--letter-spacing: -0.003em;
 
   --text-caption: 0.8125rem;
   --text-caption--line-height: 1.5;
   --text-caption--letter-spacing: 0;
 
-  /* The labelling step. A serif carries a label at its own size in normal
-     case, so this is larger and quieter than the tracked-out uppercase the
-     monospace needed to read as a label at 11px. */
-  --text-meta: 0.9375rem;
-  --text-meta--line-height: 1.35;
-  --text-meta--letter-spacing: 0.005em;
+  --text-micro: 0.75rem;
+  --text-micro--line-height: 1.45;
+  --text-micro--letter-spacing: 0.002em;
 
-  /* radius - deliberately near-square. Nothing here is a rounded card. */
-  --radius-xs: 2px;
-  --radius-sm: 3px;
-  --radius-md: 4px;
-  --radius-lg: 6px;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--letter-spacing: 0;
+
+  /* radius - soft now. Cards are the hero of the page. */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 28px;
 
   /* elevation ---------------------------------------------------------- */
   --shadow-xs: var(--shadow-xs);
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-overlay: var(--shadow-overlay);
+  --shadow-device: var(--shadow-device);
 
-  /* motion - one easing family, four durations. Motion reports a state
-     change; it is never the reason an element exists. */
+  /* motion ------------------------------------------------------------- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 
-  /* Tailwind's `duration-*` utility resolves from the --transition-duration-*
-     namespace, so the tokens are registered there and mirrored as plain
-     --duration-* custom properties for use inside hand-written CSS. */
   --transition-duration-instant: 90ms;
   --transition-duration-fast: 150ms;
   --transition-duration-base: 240ms;
   --transition-duration-slow: 420ms;
+  --transition-duration-slower: 700ms;
 
   --duration-instant: 90ms;
   --duration-fast: 150ms;
@@ -327,17 +336,16 @@
    Base
    ========================================================================== */
 @layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
   html {
-    /* Next 16 no longer overrides scroll-behavior during SPA navigation.
-       data-scroll-behavior="smooth" on <html> (see app/layout.tsx) opts back
-       in, so route changes stay instant while in-page anchors glide. */
     scroll-behavior: smooth;
-    /* Clears the 4rem sticky header on #hash navigation, plus a little air.
-       This is the only anchor offset in the system - sections deliberately do
-       not also set scroll-margin-top, because the two would add up. */
+    /* Clears the sticky header on #hash navigation, plus a little air. */
     scroll-padding-top: 5rem;
     -webkit-tap-highlight-color: transparent;
-    @apply font-sans;
+    font-family: var(--font-sans);
   }
 
   body {
@@ -346,7 +354,8 @@
     font-family: var(--font-sans);
     font-synthesis-weight: none;
     font-optical-sizing: auto;
-    /* cv05: l with a tail, for l/1/I legibility. ss03: round quotes. */
+    /* cv05: l with a tail, for l/1/I legibility. cv11: single-storey a is
+       left off - the double-storey reads better at body size. */
     font-feature-settings:
       "cv05" 1,
       "ss03" 1,
@@ -355,15 +364,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-wrap: break-word;
-    @apply bg-background text-foreground;
   }
 
-  /* Focus: visible, offset off the element, and 5.2:1 against the page in
-     light / 7:1 in dark, satisfying SC 2.4.13. Never removed. */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
-    border-radius: var(--radius-xs);
   }
 
   :focus:not(:focus-visible) {
@@ -371,17 +376,11 @@
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-accent-contrast);
+    background-color: var(--color-lavender);
+    color: var(--color-ink);
   }
 
-  /* Flipping the theme must be instant.
-     Colour utilities carry transitions for hover and state, and when every
-     token changes at once those transitions cross-fade the whole page - most
-     visibly in the header, where the nav, the toggle and the rule all ease
-     between two palettes and the switch feels like lag.
-     The theme setter stamps this attribute for one frame, which suppresses
-     transitions during the swap and leaves hover behaviour untouched. */
+  /* Flipping the theme must be instant - see applyTheme() in theme.tsx. */
   [data-theme-switching],
   [data-theme-switching] *,
   [data-theme-switching] *::before,
@@ -389,7 +388,6 @@
     transition: none !important;
   }
 
-  /* Figures line up in tables and metadata without shifting column width. */
   th,
   td,
   time {
@@ -402,11 +400,8 @@
   }
 
   dialog::backdrop {
-    background-color: oklch(16.5% 0.006 265 / 0.38);
+    background-color: oklch(15.5% 0.004 286 / 0.38);
     backdrop-filter: blur(2px);
-  }
-  * {
-    @apply border-border outline-ring/50;
   }
 }
 
@@ -414,109 +409,39 @@
    Utilities
    ========================================================================== */
 
-/* The labelling voice: serif, normal case, at its own size. Used for section
-   numbers and names, field labels, captions and figure titles - anything that
-   names a thing rather than being the thing.
-
-   Deliberately not uppercase. A monospace needs caps and open tracking to
-   read as a label at 11px; a serif carries a label in normal case at its own
-   size. PT Serif is low-contrast and built for screen text, so it stays
-   sturdy here rather than thinning out the way a display serif would. */
+/* The labelling voice: small, sans, quiet. Section eyebrows, field labels,
+   dates - anything that names a thing rather than being the thing. */
 @utility meta {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: var(--text-meta);
-  line-height: 1.35;
-  letter-spacing: 0.005em;
-  /* Lining figures sit better beside sentence-case text than the old tabular
-     monospace numerals did. */
-  font-variant-numeric: lining-nums;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
 }
 
-/* For a label that is a note rather than a heading - figure captions and
-   annotation labels. PT Serif's italic is a drawn cut, not a slant. */
 @utility meta-italic {
   font-family: var(--font-serif);
-  font-size: var(--text-meta);
-  line-height: 1.35;
+  font-size: 0.875rem;
+  line-height: 1.4;
   font-style: italic;
-  letter-spacing: 0.005em;
 }
 
-/* Two pixels of horizontal air so glyphs never sit against a grid hairline.
-   Applied as padding on the column block, not as a margin or an offset: the
-   block's box still spans its columns exactly, so it stays aligned to the
-   drawn grid and only the text moves inward. Applied at one level per text
-   run, never nested, or the air doubles. */
+/* The spoken voice, at whatever size the caller sets. */
+@utility font-voice {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-optical-sizing: auto;
+}
+
+/* Kept for the deferred pages - a no-op spacing helper in this design. */
 @utility grid-air {
   padding-inline: 2px;
-}
-
-/* Widths that land on the page grid, for content that cannot use the grid
-   itself - a table, whose columns are sized rather than placed.
-   A section block spans nine of the page's twelve columns, so one column is
-   (100% - eight 24px gutters) / 9, and a run of n columns also swallows n
-   gutters. Declared here rather than as an arbitrary Tailwind value because a
-   slash inside `w-[...]` is parsed as the opacity modifier and the class is
-   silently dropped. */
-/* Each carries its own breakpoints rather than being paired with a `w-*`
-   utility at a variant, and the name avoids the core `w-` namespace: Tailwind
-   parses `w-grid-1` as the width utility with an unknown value and drops the
-   rule silently. Two width utilities on one element are also resolved by
-   the order Tailwind emits them, and a custom utility does not reliably sort
-   after a core one - so `w-24 lg:w-grid-1` silently kept the 24. One class,
-   nothing to override it. */
-/* Written as plain CSS on a data attribute rather than as a Tailwind utility.
-   `@utility w-grid-1` was silently dropped - `w-` is a core namespace, so
-   Tailwind parses the name as the width utility with an unknown value - and a
-   renamed utility paired with a `w-*` class at a variant loses the cascade
-   depending on emission order. A plain rule is emitted verbatim and cannot be
-   parsed away, which for three numbers is the right trade. */
-/* The widths themselves are applied inline in page.tsx; these properties only
-   carry the value. A stylesheet rule on the cell does not survive the fixed
-   table layout algorithm here, while an inline width does - so the value is
-   kept responsive with media queries and handed to the cell as a variable.
-   The calc() substitutes as raw tokens and resolves against the cell's own
-   containing block, which is the table - that is what makes the percentage
-   mean "of the table" rather than "of the page". */
-:root {
-  --tcol-1: 6rem;
-  --tcol-3: auto;
-}
-
-@media (width >= 40rem) {
-  :root {
-    --tcol-3: 18rem;
-  }
-}
-
-/* From 1024px the twelve-column grid engages and the columns are sized to it.
-   Years is one grid column plus its gutter, Role is three - which puts the
-   Detail column on a grid line.
-
-   Expressed as plain percentages of the table rather than the exact formula,
-   calc((100% - 192px) / 9 + 24px), because a calc() that mixes a percentage
-   with a length is not honoured for a fixed-layout table column: the browser
-   discards it and falls back to an equal split.
-
-   A percentage cannot track the grid exactly, since the gutters are a fixed
-   24px while the columns flex - the true share of one column plus its gutter
-   runs from 11.50% at 1024px to 11.40% at 1440px. These are biased a hair
-   wide on purpose, so the Detail column always lands just past its grid line
-   (measured 2-6px clear from 1024 to 1600) rather than just short of it.
-   Erring outward keeps air under the text; erring inward would put a glyph
-   on a hairline, which is the thing being fixed. */
-@media (width >= 64rem) {
-  :root {
-    --tcol-1: 11.1111%;
-    --tcol-3: 33.3333%;
-  }
 }
 
 @utility tabular {
   font-variant-numeric: tabular-nums;
 }
 
-/* Measure caps. Prose stops being comfortable much past 75 characters. */
 @utility measure {
   max-width: 68ch;
 }
@@ -529,7 +454,6 @@
   max-width: 78ch;
 }
 
-/* A link that gains an underline on hover instead of losing one. */
 @utility link-underline {
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
@@ -544,29 +468,60 @@
   }
 }
 
+/* A studio backdrop: a soft two-stop gradient, lit from above, in the hue the
+   card passes as --studio-h. Reads as a seamless paper sweep rather than as a
+   colour, which is what lets a diagram on a device sit on it like an object
+   photographed on a table. */
+@utility studio {
+  background:
+    radial-gradient(
+      120% 85% at 50% 18%,
+      oklch(var(--studio-l1) var(--studio-c) var(--studio-h, 286)) 0%,
+      oklch(var(--studio-l2) calc(var(--studio-c) * 1.4) var(--studio-h, 286)) 100%
+    );
+}
+
+/* The tray a phone lies on: a moulded dish a few steps deeper than the sweep
+   behind it, lit from above - a bright lip on top, shade pooling inside. */
+@utility studio-tray {
+  background: oklch(var(--tray-l) var(--tray-c) var(--studio-h, 286));
+  box-shadow:
+    inset 0 2px 1px oklch(100% 0 0 / 0.35),
+    inset 0 -18px 36px oklch(0% 0 0 / 0.14),
+    inset 0 10px 24px oklch(100% 0 0 / 0.12),
+    0 34px 40px -26px oklch(10% 0.02 286 / 0.45);
+}
+
+/* Darkens the bottom of a studio card so white caption text holds 4.5:1. */
+@utility studio-shade {
+  background: linear-gradient(
+    to top,
+    var(--studio-shade) 0%,
+    color-mix(in oklab, var(--studio-shade) 45%, transparent) 22%,
+    transparent 46%
+  );
+}
+
 /* ==========================================================================
    Entrance motion
-
-   Elements start displaced and are released when an IntersectionObserver
-   sets [data-revealed]. The transition lives entirely in CSS; JS only ever
-   toggles attributes.
-
-   The hidden state is gated on [data-motion="armed"] on <html>, which the
-   boot script in <head> sets during HTML parsing - before any .reveal element
-   has been parsed, so there is no flash of visible-then-hidden content. With
-   JS disabled, or when reduced motion is requested, the attribute is never
-   written and every .reveal is simply visible.
+   Gated on [data-motion="armed"], which the boot script sets before any
+   .reveal is parsed. With JS off or reduced motion, everything is visible.
    ========================================================================== */
+/* Opacity and travel run on separate curves. The fade is short and even, so
+   the element is readable early; the rise is longer on a soft ease-out-quint,
+   so it settles into place gently instead of stopping. Together they read as
+   smooth without making anyone wait - the content is legible well before the
+   last few pixels of travel finish. */
 .reveal {
   transition:
-    opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
+    opacity 560ms cubic-bezier(0.33, 0, 0.2, 1),
+    transform 760ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 [data-motion="armed"] .reveal {
   opacity: 0;
-  transform: translateY(0.75rem);
+  transform: translate3d(0, 1.125rem, 0);
 }
 
 [data-motion="armed"] .reveal[data-revealed] {
@@ -574,63 +529,181 @@
   transform: none;
 }
 
+/* The hero's entrance. Same look as .reveal, but a CSS animation that starts
+   on first paint instead of waiting for the observer - .reveal needs React to
+   hydrate before anything is released, which held the h1 (the page's Largest
+   Contentful Paint) invisible until the JavaScript had loaded. This needs no
+   script at all beyond the inline boot script that sets data-motion, which
+   runs before the first paint. `both` keeps the from-state through the delay
+   and the end state after it. */
+[data-motion="armed"] .rise {
+  animation: rise 760ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.125rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Stack marquee - see stack-marquee.tsx
+   ========================================================================== */
+.marquee {
+  /* Fades the row out at both ends, so logos arrive and leave rather than
+     being cut off by the container edge. A long, eased fade - a quarter of
+     the width on each side, with an intermediate stop so the falloff is soft
+     rather than a linear ramp. */
+  --marquee-fade: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(0 0 0 / 0.35) 10%,
+    #000 26%,
+    #000 74%,
+    rgb(0 0 0 / 0.35) 90%,
+    transparent 100%
+  );
+  mask-image: var(--marquee-fade);
+  -webkit-mask-image: var(--marquee-fade);
+}
+
+/* Runs continuously - no pause on hover. Slightly longer than before so the
+   added entry does not make the row move faster. */
+.marquee-track {
+  animation: marquee 46s linear infinite;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* A monochrome logo, painted in the current text colour. The file is used
+   only as the shape. */
+.logo-mask {
+  mask-image: var(--logo);
+  -webkit-mask-image: var(--logo);
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+}
+
+/* No motion requested: no marquee. One static row, wrapped and centred. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    mask-image: none;
+    -webkit-mask-image: none;
+    justify-content: center;
+  }
+
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1rem;
+    padding-right: 0;
+    flex-shrink: 1;
+  }
+
+  .marquee-track[data-copy] {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    Hero backdrop
 
-   components/shader.tsx renders an opaque, full-bleed WebGL image. Dropped in
-   raw it would be a picture the hero has to compete with, so it is treated as
-   a material instead: masked back to the empty lower-right of the composition,
-   dimmed, and blended into the page ground rather than laid on top of it.
+   components/shader.tsx renders an opaque, full-bleed WebGL image: lavender
+   light refracted through a field of glass rods, drifting after the pointer.
+   Dropped in raw it would be a picture the hero has to compete with, so it is
+   treated as a material instead - blended into the page ground and faded out
+   at every edge, so it reads as light falling on the page rather than as a
+   rectangle placed on it.
 
-     multiply in light - the render is dark, so it inks the warm paper.
-     screen in dark    - only the bright refraction rims survive, as a glow.
+     multiply in light - grounded on white, so only the colour inks the paper.
+     screen in dark    - grounded on black, so only the bright rims glow.
 
-   The mask is deliberately absent behind the display line. The type keeps a
-   clean ground and the shader fills the space the layout left empty, which is
-   the only reason it earns a place on a page built around restraint.
+   See hero-backdrop.tsx for why white and black are the two grounds that
+   survive the colour pipeline untouched.
    ========================================================================== */
 .hero-backdrop {
-  /* A vignette: the render carries across the whole hero and only softens at
-     the outer edges, so nothing is held back from the top or the left.
-
-     One layer on purpose. Shaping it with separate horizontal and vertical
-     layers under `mask-composite: intersect` reads correctly but does not take
-     effect here - the layers union instead of intersecting, which lets
-     everything through. A single gradient needs no compositing.
-
-     Move the first stop up to widen the fully-visible area, down to pull the
-     fade further in from the edges. */
+  /* An ellipse rather than a circle: the hero is wide and short, and the fade
+     has to reach the top and bottom edges well before the sides so the render
+     dissolves into the header above and the stack strip below. */
   --hero-fade: radial-gradient(
-    88% 88% at 50% 50%,
+    62% 72% at 50% 46%,
     #000 0%,
-    #000 68%,
-    rgb(0 0 0 / 0.6) 88%,
+    #000 42%,
+    rgb(0 0 0 / 0.55) 70%,
     transparent 100%
   );
 
-  /* The shader is grounded on white and multiplied, which leaves the page
-     exactly as it is wherever the render is flat and tints it wherever the
-     refraction falls - so the flat area needs no hiding. See hero-backdrop.tsx
-     for why white and black are the two grounds that survive the pipeline.
-
-     A touch under full strength: enough to take the last of the hard edge off
-     the refraction without dimming it back into a wash. The flat ground is the
-     blend's neutral either way, so lowering this only softens the visible
-     part - it cannot reintroduce a seam. */
-  opacity: 0.85;
+  opacity: 0.9;
   mix-blend-mode: multiply;
   mask-image: var(--hero-fade);
   -webkit-mask-image: var(--hero-fade);
-
-  /* No transform. It existed only to push the render's core into the corner
-     the old diagonal mask revealed; with a vignette the whole frame is visible,
-     so the render sits where it is drawn - and it stays at 1:1, which keeps the
-     rods as thin as the shader draws them instead of scaling them up. */
 }
 
-/* Dark inverts the pair: grounded on black and screened. */
 [data-theme="dark"] .hero-backdrop {
   mix-blend-mode: screen;
+  opacity: 0.6;
+}
+
+/* Static ground under the shader, and the whole effect wherever the shader is
+   not mounted - phones and reduced motion. A soft lavender bloom where the
+   render's core would be, so the hero has the same light either way. */
+.hero-glow {
+  --glow-core: 26%;
+  --glow-mid: 8%;
+  --glow-size: 46% 52%;
+  background: radial-gradient(
+    var(--glow-size) at 50% 44%,
+    color-mix(in oklab, var(--color-lavender) var(--glow-core), transparent) 0%,
+    color-mix(in oklab, var(--color-lavender) var(--glow-mid), transparent) 55%,
+    transparent 100%
+  );
+}
+
+/* Dark: the lavender is a light tone there, so on a near-black ground the
+   same mix reads as a grey-violet disc rather than a glow. Much fainter. */
+[data-theme="dark"] .hero-glow {
+  --glow-core: 7%;
+  --glow-mid: 2%;
+}
+
+/* Dark with the shader running: no bloom at all. The render is the light
+   source; a second, static one behind it competed with it. In light the
+   bloom stays - under multiply it is barely there and fills the gap at the
+   edges of the shader's mask. */
+[data-theme="dark"] .hero-glow:has(+ .hero-backdrop) {
+  display: none;
+}
+
+/* Small screens never mount the shader (hero-backdrop.tsx, below 48rem), so
+   the bloom is the hero's only light there and can afford to be stronger -
+   and larger, since a 46% ellipse on a narrow, tall hero is a small spot.
+   Listed after the dark rule so it wins at equal specificity. */
+@media (width < 48rem) {
+  .hero-glow {
+    --glow-core: 38%;
+    --glow-mid: 13%;
+    --glow-size: 80% 46%;
+  }
+
+  [data-theme="dark"] .hero-glow {
+    --glow-core: 16%;
+    --glow-mid: 5%;
+  }
 }
 
 /* Belt and braces: the component is not mounted under reduced motion, but if
@@ -683,8 +756,7 @@
 }
 
 /* ==========================================================================
-   Reduced motion - honoured globally rather than per component. Transitions
-   collapse to a near-instant change so state is still legible with no travel.
+   Reduced motion - honoured globally rather than per component.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -705,38 +777,4 @@
     opacity: 1;
     transform: none;
   }
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
 }

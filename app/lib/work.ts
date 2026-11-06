@@ -1,7 +1,7 @@
 /**
  * Selected work.
  *
- * Four real projects, ordered newest first. Array order is display order and
+ * Five real projects, ordered newest first. Array order is display order and
  * the `index` values follow it, so adding a project means inserting it at the
  * right point by date and renumbering from there.
  *
@@ -17,7 +17,34 @@
  * is honest, a fabricated statistic is not.
  */
 
-export type PlateVariant = "burn" | "system" | "compare" | "field";
+export type PlateVariant = "burn" | "system" | "compare" | "field" | "rods";
+
+export type DeviceVariant = "browser" | "phone" | "window";
+
+/** Keys into the icon map in app/components/studio-card.tsx. */
+export type HighlightIcon =
+  | "calendar"
+  | "users"
+  | "timer"
+  | "calculator"
+  | "bot"
+  | "chart"
+  | "scale"
+  | "phone"
+  | "app"
+  | "activity"
+  | "shield"
+  | "download"
+  | "cpu"
+  | "camera"
+  | "scan"
+  | "trash"
+  | "sparkles"
+  | "palette"
+  | "gauge"
+  | "code";
+
+export type Highlight = { icon: HighlightIcon; title: string; detail: string };
 
 export type SectionList = { term: string; detail: string };
 
@@ -48,6 +75,17 @@ export type Project = {
   category: string;
   stack: string[];
   plate: PlateVariant;
+  /**
+   * The studio card on the landing page: which device the diagram is shown
+   * on, the hue of the backdrop it sits on, and four short highlights for the
+   * icon row beneath it. Highlights restate decisions already described in
+   * `sections` - nothing new is claimed here.
+   */
+  showcase: {
+    device: DeviceVariant;
+    hue: number;
+    highlights: Highlight[];
+  };
   /** Live product. Omitted when there is nothing public to visit. */
   href?: string;
   repo?: string;
@@ -77,6 +115,16 @@ export const projects: Project[] = [
     stack: ["Chrome Extension", "Google Calendar API", "Microsoft Graph"],
     href: "https://burnmeter.app",
     plate: "burn",
+    showcase: {
+      device: "browser",
+      hue: 295,
+      highlights: [
+        { icon: "calendar", title: "Calendar sync", detail: "Google Calendar & Outlook" },
+        { icon: "users", title: "Real attendance", detail: "Verified via Meet & Teams" },
+        { icon: "timer", title: "Live counter", detail: "Cost accrues during the call" },
+        { icon: "calculator", title: "Free calculator", detail: "No account, no salary data" },
+      ],
+    },
     outcome: null,
     sections: [
       {
@@ -232,8 +280,74 @@ export const projects: Project[] = [
   },
 
   {
-    slug: "netuygun-tariff-comparison",
+    slug: "portfolio",
     index: "02",
+    name: "bilalgumus.net",
+    tagline: "This site. Open source, from the tokens to the WebGL hero.",
+    description:
+      "A one-page portfolio on Next.js: a three.js glass-rod shader behind the hero, OKLCH design tokens for both themes, and an entrance animation that never waits for JavaScript.",
+    role: "Design & engineering",
+    year: "2026",
+    category: "Personal site",
+    stack: ["Next.js", "React", "Tailwind CSS", "three.js"],
+    /** No `href`: the live site is the page the visitor is already on. */
+    repo: "https://github.com/BilalGumus/portfolio",
+    plate: "rods",
+    showcase: {
+      device: "browser",
+      hue: 330,
+      highlights: [
+        { icon: "sparkles", title: "WebGL hero", detail: "three.js glass-rod shader" },
+        { icon: "palette", title: "Theme tokens", detail: "OKLCH, light and dark" },
+        { icon: "gauge", title: "Fast first paint", detail: "Hero visible before hydration" },
+        { icon: "code", title: "Open source", detail: "Every line on GitHub" },
+      ],
+    },
+    /** Measured: 3 runs, 4x CPU throttle, Chrome LCP entry. */
+    outcome:
+      "Hero LCP from 4.2s to 1.9s on a 4x-throttled CPU, by moving the entrance animation off hydration.",
+    sections: [
+      {
+        id: "01",
+        title: "Overview",
+        body: [
+          "The site you are reading. One page, statically prerendered, with the source public on GitHub - which makes it the one project here where every claim can be checked line by line.",
+        ],
+      },
+      {
+        id: "02",
+        title: "Architecture",
+        list: [
+          {
+            term: "Content as data",
+            detail:
+              "Every word on the page comes from two typed files, so a role or a project changes in one place.",
+          },
+          {
+            term: "Tokens, not values",
+            detail:
+              "Colour is authored in OKLCH as roles that resolve per theme, so no component carries a dark-mode branch.",
+          },
+          {
+            term: "Shader as material",
+            detail:
+              "The three.js render is blended into the page ground, loaded only on wide screens with motion allowed, and paused off-screen.",
+          },
+        ],
+      },
+      {
+        id: "03",
+        title: "Performance",
+        body: [
+          "The hero's entrance used to wait for React to hydrate before releasing the heading, which made the largest element on the page depend on the JavaScript bundle. Moving it to a CSS animation that starts on first paint took the measured LCP from 4.2s to 1.9s on a 4x-throttled CPU.",
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "netuygun-tariff-comparison",
+    index: "03",
     name: "Netuygun",
     tagline: "Comparing 300+ internet tariffs with real price history",
     description:
@@ -244,6 +358,16 @@ export const projects: Project[] = [
     stack: ["Next.js", "TypeScript", "Puppeteer"],
     href: "https://netuygun.bilalgumus.net/",
     plate: "compare",
+    showcase: {
+      device: "phone",
+      hue: 235,
+      highlights: [
+        { icon: "bot", title: "Scheduled scrapers", detail: "One per provider" },
+        { icon: "chart", title: "Price history", detail: "Append-only observations" },
+        { icon: "scale", title: "Effective cost", detail: "Across the full commitment" },
+        { icon: "phone", title: "One column first", detail: "Designed at 390px" },
+      ],
+    },
     outcome: null,
     sections: [
       {
@@ -374,7 +498,7 @@ export const projects: Project[] = [
 
   {
     slug: "turkey-hks-scraper",
-    index: "03",
+    index: "04",
     name: "HKS Scraper",
     tagline: "A desktop app that wraps a scraper in a real interface",
     description:
@@ -385,6 +509,16 @@ export const projects: Project[] = [
     stack: ["Tauri", "React", "Node.js", "Puppeteer"],
     repo: "https://github.com/BilalGumus/turkey-hks-scraper",
     plate: "system",
+    showcase: {
+      device: "window",
+      hue: 160,
+      highlights: [
+        { icon: "app", title: "Native shell", detail: "Tauri, one binary" },
+        { icon: "activity", title: "Live progress", detail: "Records stream in" },
+        { icon: "shield", title: "Non-fatal errors", detail: "Logged per record" },
+        { icon: "download", title: "Append as you go", detail: "Output always valid" },
+      ],
+    },
     outcome:
       "Ships as a single desktop binary; a run that was a bespoke script became a form and a progress view.",
     sections: [
@@ -515,7 +649,7 @@ export const projects: Project[] = [
 
   {
     slug: "browser-face-authentication",
-    index: "04",
+    index: "05",
     name: "Face Auth",
     tagline: "On-device facial recognition, no server round trip",
     description:
@@ -526,6 +660,16 @@ export const projects: Project[] = [
     stack: ["React", "face-api.js", "WebRTC"],
     repo: "https://github.com/BilalGumus/react-face-auth",
     plate: "field",
+    showcase: {
+      device: "browser",
+      hue: 45,
+      highlights: [
+        { icon: "cpu", title: "On-device", detail: "No server round trip" },
+        { icon: "camera", title: "Explicit camera", detail: "Stream state always shown" },
+        { icon: "scan", title: "Three outcomes", detail: "Matched, not, or unsure" },
+        { icon: "trash", title: "Instant delete", detail: "One confirmed action" },
+      ],
+    },
     outcome:
       "Fully client-side - no image or descriptor leaves the device. Built as an experiment, and it concluded against using this for real accounts.",
     sections: [

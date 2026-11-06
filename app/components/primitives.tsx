@@ -4,13 +4,13 @@ import type { ComponentProps, CSSProperties, ReactNode } from "react";
 /**
  * Layout and voice primitives.
  *
- * These know about the grid and the type scale and nothing else - no content,
- * no product concepts. Every page is assembled from this file plus the
- * components that compose it.
+ * These know about the layout and the type scale and nothing else - no
+ * content, no product concepts. Every page is assembled from this file plus
+ * the components that compose it.
  *
- * None of these carry a `dark:` variant. Colour utilities resolve through
- * theme-aware custom properties, so a component never knows which theme it
- * is rendering in.
+ * None of these carry a `dark:` variant for colour. Colour utilities resolve
+ * through theme-aware custom properties, so a component never knows which
+ * theme it is rendering in.
  */
 
 export function cx(...parts: Array<string | false | null | undefined>) {
@@ -18,138 +18,73 @@ export function cx(...parts: Array<string | false | null | undefined>) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Grid                                                                      */
+/*  Layout                                                                    */
 /* -------------------------------------------------------------------------- */
 
 /**
- * The measure. One value for the outer bound and one padding ramp, used by
- * every section so nothing has to re-derive the margins.
+ * The measure. Three widths, one padding ramp.
+ *
+ *   wide    - header, footer, the outer frame of the page
+ *   default - the studio cards and most sections
+ *   narrow  - the hero prompt and anything set as a single column of prose
  */
 export function Container({
   className,
   children,
+  size = "wide",
 }: {
   className?: string;
   children: ReactNode;
+  size?: "wide" | "default" | "narrow";
 }) {
+  const max = {
+    wide: "max-w-[90rem]",
+    default: "max-w-[76rem]",
+    narrow: "max-w-[46rem]",
+  }[size];
+
   return (
-    <div
-      className={cx(
-        "mx-auto w-full max-w-352 px-5 sm:px-8 lg:px-12 xl:px-20",
-        className,
-      )}
-    >
+    <div className={cx("mx-auto w-full px-5 sm:px-8 lg:px-12", max, className)}>
       {children}
     </div>
   );
 }
 
 /**
- * The visible grid.
- *
- * Draws a hairline at the start of each of the twelve columns the content
- * aligns to. Fixed rather than per-section, so there is one instance and it can
- * never fall out of alignment. Suppressed below 1024px, where the layout is a
- * single column and the rules would describe a grid that is not being used.
- *
- * This is the one element on the site with no function beyond explaining the
- * layout. It is here because the subject is the system.
- */
-export function GridLines() {
-  return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 hidden lg:block">
-      <Container className="h-full">
-        {/* Drawn inside the same Container the content uses, so the rules stay
-            aligned at every width - including past the 88rem bound, where the
-            container is centred and the page padding no longer marks the edge.
-
-            The grid carries no gutter. That is what lets all three of these be
-            true at once, which a gutter makes impossible:
-
-              - every interval is identical
-              - the first line sits on the content's left edge
-              - the last line sits on the content's right edge
-
-            With a 24px gutter, lines on column starts left the final interval
-            one gutter short, and lines on column ends left the right-hand
-            content floating 24px inside the last line. Twelve columns tiling
-            the width edge to edge have neither problem: separation between
-            adjacent blocks comes from their own padding instead. */}
-        <div className="grid h-full grid-cols-12">
-          {Array.from({ length: 12 }, (_, i) => (
-            <div
-              key={i}
-              className={cx("border-l border-grid", i === 11 && "border-r")}
-            />
-          ))}
-        </div>
-      </Container>
-    </div>
-  );
-}
-
-/**
- * A section with a numbered rail.
- *
- * Desktop puts the number and label in the left three columns and the content
- * in the remaining nine - asymmetric, and the rail stays with you while you
- * read, which is orientation rather than decoration. Below 1024px the rail
- * becomes a heading above the content; the hierarchy is preserved instead of
- * the desktop composition being shrunk.
+ * A page section: generous vertical space and an optional heading row with
+ * the title on the left and an action on the right.
  */
 export function Section({
   id,
-  index,
-  label,
+  title,
+  action,
   children,
-  wide = false,
+  size = "default",
   className,
 }: {
   id: string;
-  index: string;
-  label: string;
+  title?: string;
+  action?: ReactNode;
   children: ReactNode;
-  /** Content spans all twelve columns, with the rail above it. */
-  wide?: boolean;
+  size?: "wide" | "default" | "narrow";
   className?: string;
 }) {
   return (
     <section
       id={id}
-      aria-labelledby={`${id}-label`}
-      // No scroll-margin here: `scroll-padding-top` on <html> already offsets
-      // anchor landings for the sticky header. Setting both makes them add up,
-      // which lands the section a header's height too far down the page.
-      className={cx("border-t border-line", className)}
+      aria-labelledby={title ? `${id}-title` : undefined}
+      className={cx("py-24 sm:py-32 lg:py-40", className)}
     >
-      <Container>
-        <div
-          className={cx(
-            "py-16 sm:py-20 lg:py-28",
-            !wide && "lg:grid lg:grid-cols-12",
-          )}
-        >
-          <header
-            className={cx(
-              "grid-air mb-10 flex items-baseline gap-3",
-              wide ? "lg:mb-14" : "lg:col-span-3 lg:mb-0 lg:sticky lg:top-28 lg:self-start",
-            )}
-          >
-            <span aria-hidden className="meta text-tertiary">
-              {index}
-            </span>
-            <h2 id={`${id}-label`} className="meta text-secondary">
-              {label}
+      <Container size={size}>
+        {title && (
+          <header className="mb-12 flex items-center justify-between gap-4 sm:mb-16">
+            <h2 id={`${id}-title`} className="text-h2 text-primary">
+              {title}
             </h2>
+            {action}
           </header>
-          {/* No grid-air on this wrapper. Section content routinely holds its
-              own nine-column grid, and padding the wrapper would make that
-              grid 4px narrower than the nine page columns it is supposed to
-              map onto - pulling everything inside it a pixel or so off the
-              drawn lines. The air is added by the leaf blocks instead, where
-              it insets text without resizing any grid. */}
-          <div className={cx(!wide && "lg:col-span-9")}>{children}</div>
-        </div>
+        )}
+        {children}
       </Container>
     </section>
   );
@@ -159,7 +94,7 @@ export function Section({
 /*  Voice                                                                     */
 /* -------------------------------------------------------------------------- */
 
-/** Metadata voice: mono, uppercase, tracked open. Data, not prose. */
+/** Metadata voice: small and quiet. Data, not prose. */
 export function Meta({
   children,
   className,
@@ -172,14 +107,10 @@ export function Meta({
   /**
    * Colour is a prop rather than something the caller overrides with a
    * className. Two colour utilities on one element are resolved by the order
-   * Tailwind emits them, not by the order they are written - so a baked-in
-   * default silently beat every `className="text-accent"` override.
+   * Tailwind emits them, not by the order they are written.
    */
   tone?: "primary" | "secondary" | "tertiary" | "accent";
 }) {
-  // Secondary by default rather than tertiary: Instrument Serif is a
-  // high-contrast face with thin hairlines, so at label size it needs the
-  // extra tonal weight to hold its own against the sans around it.
   const toneClass = {
     primary: "text-primary",
     secondary: "text-secondary",
@@ -205,13 +136,7 @@ export function Prose({
   );
 }
 
-/**
- * A hairline.
- *
- * Container-width, so it is deliberately not used on the landing page - the
- * only rules there are the full-bleed ones between sections and above the
- * footer. Kept for the deferred pages, which still rule their content.
- */
+/** A hairline. */
 export function Rule({
   className,
   strong = false,
@@ -226,11 +151,7 @@ export function Rule({
   );
 }
 
-/**
- * The title block: a short table of facts sitting beside the thing it
- * describes. Alignment carries it rather than rules - label left, value
- * right, one fact per line.
- */
+/** A short table of facts: label left, value right, one fact per line. */
 export function TitleBlock({
   rows,
   className,
@@ -239,12 +160,9 @@ export function TitleBlock({
   className?: string;
 }) {
   return (
-    <dl className={cx("space-y-3.5", className)}>
+    <dl className={cx("space-y-3", className)}>
       {rows.map((row) => (
-        <div
-          key={row.term}
-          className="flex items-baseline justify-between gap-6"
-        >
+        <div key={row.term} className="flex items-baseline justify-between gap-6">
           <dt className="meta shrink-0 text-tertiary">{row.term}</dt>
           <dd className="min-w-0 text-right text-small text-primary">{row.detail}</dd>
         </div>
@@ -253,7 +171,7 @@ export function TitleBlock({
   );
 }
 
-/** A small bordered label. Not a pill - the radius is 2px. */
+/** A small rounded chip. */
 export function Badge({
   children,
   tone = "neutral",
@@ -264,10 +182,10 @@ export function Badge({
   return (
     <span
       className={cx(
-        "inline-flex items-center rounded-xs border px-1.5 py-0.5 text-[0.6875rem] leading-4 tracking-wide",
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-micro",
         tone === "accent"
-          ? "border-accent/40 bg-accent-wash text-accent"
-          : "border-line text-tertiary",
+          ? "border-transparent bg-lavender-soft text-primary"
+          : "border-line bg-surface text-secondary",
       )}
     >
       {children}
@@ -276,11 +194,9 @@ export function Badge({
 }
 
 /**
- * An unfinished slot.
- *
- * Rendered wherever the honest content is "only the owner knows this".
- * Deliberately conspicuous: a fabricated metric would look better here, which
- * is exactly why this exists.
+ * An unfinished slot. Rendered wherever the honest content is "only the owner
+ * knows this" - a fabricated metric would look better here, which is exactly
+ * why this exists.
  */
 export function Placeholder({
   children,
@@ -290,17 +206,14 @@ export function Placeholder({
   label?: string;
 }) {
   return (
-    <div className="rounded-sm border border-dashed border-line-control bg-surface-sunken/60 p-4 sm:p-5">
-      <p className="meta mb-2 text-accent">{label} — content required</p>
+    <div className="rounded-lg border border-dashed border-line-control bg-surface-sunken p-4 sm:p-5">
+      <p className="meta mb-2 text-accent">{label}: content required</p>
       <p className="measure text-small text-secondary">{children}</p>
     </div>
   );
 }
 
-/**
- * A margin note explaining a decision. In a case study these carry the
- * reasoning that a screenshot cannot.
- */
+/** A margin note explaining a decision. */
 export function Annotation({
   label,
   children,
@@ -309,14 +222,14 @@ export function Annotation({
   children: ReactNode;
 }) {
   return (
-    <aside className="border-l-2 border-accent pl-4 sm:pl-5">
-      <p className="meta-italic mb-1.5 text-accent">{label}</p>
+    <aside className="rounded-lg bg-lavender-soft p-4 sm:p-5">
+      <p className="meta-italic mb-1.5 text-primary">{label}</p>
       <p className="measure-tight text-small text-secondary">{children}</p>
     </aside>
   );
 }
 
-/** A term/detail list. The workhorse for architecture and decision lists. */
+/** A term/detail list. */
 export function DefinitionList({
   items,
 }: {
@@ -342,20 +255,28 @@ export function DefinitionList({
 /* -------------------------------------------------------------------------- */
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-sm text-small font-medium " +
-  "transition-[background-color,border-color,color,transform] duration-fast ease-standard " +
-  "active:scale-[0.985] disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap " +
+  "transition-[background-color,border-color,color,transform,box-shadow] duration-fast ease-standard " +
+  "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50";
 
+/**
+ * Four variants: an ink pill for the main action, a lavender pill for the
+ * friendly one, a hairline pill for the rest, and a bare ghost.
+ *
+ * Text on lavender is always the light-theme ink, in both themes - the fill
+ * stays light in dark mode, so it needs dark text either way.
+ */
 const buttonVariants = {
-  primary: "bg-accent text-accent-contrast hover:bg-accent-hover",
+  primary: "bg-ink text-ink-contrast hover:bg-ink-hover",
+  accent: "bg-lavender text-[oklch(19%_0.006_286)] hover:bg-lavender-hover",
   secondary:
-    "border border-line-control text-primary hover:border-primary hover:bg-surface-sunken",
+    "border border-line-strong bg-surface text-primary shadow-xs hover:border-line-control",
   ghost: "text-secondary hover:bg-surface-sunken hover:text-primary",
 } as const;
 
 const buttonSizes = {
-  sm: "h-8 px-2.5",
-  md: "h-10 px-4",
+  sm: "h-8 px-3.5 text-caption",
+  md: "h-10 px-4.5 text-small",
 } as const;
 
 export type ButtonVariant = keyof typeof buttonVariants;
@@ -421,21 +342,25 @@ export function ButtonLink({
 
 /**
  * The status indicator. The ring animates only where motion is allowed; the
- * dot and its label carry the meaning on their own, so the animation is
- * genuinely optional.
+ * dot and its label carry the meaning on their own.
  */
+const STATUS_GREEN = "bg-[oklch(68%_0.16_150)]";
+
 export function StatusDot({ active = true }: { active?: boolean }) {
   return (
     <span aria-hidden className="relative inline-flex size-2 shrink-0 items-center justify-center">
       <span
         className={cx(
           "absolute inline-flex size-2 rounded-full",
-          active ? "bg-accent" : "bg-tertiary",
+          active ? STATUS_GREEN : "bg-tertiary",
         )}
       />
       {active && (
         <span
-          className="absolute inline-flex size-2 rounded-full bg-accent motion-safe:animate-[pulse-ring_2.8s_var(--ease-out)_infinite]"
+          className={cx(
+            "absolute inline-flex size-2 rounded-full motion-safe:animate-[pulse-ring_2.8s_var(--ease-out)_infinite]",
+            STATUS_GREEN,
+          )}
         />
       )}
     </span>
@@ -464,13 +389,66 @@ export function Arrow({
   return (
     <span
       aria-hidden
+      className={cx("inline-block transition-transform duration-base ease-out", travel, className)}
+    >
+      {glyph}
+    </span>
+  );
+}
+
+/**
+ * The round arrow that ends a pill - the disc inside the "View source" and
+ * "Visit" buttons on the studio cards, and every outbound pill since.
+ *
+ *   tone "light" - a light disc, for ink (primary) buttons
+ *   tone "ink"   - an ink disc, for hairline (secondary) buttons, where a
+ *                  light disc would vanish into the button's own fill
+ *
+ * The disc sits flush with the pill's end, so a button that ends in one
+ * takes less right padding: pr-1.5 at md, pr-1 at sm.
+ *
+ * Direction "up-right" leaves the site; "right" stays on it. Hover nudges it
+ * the way it points.
+ */
+export function ArrowDisc({
+  className,
+  direction = "right",
+  tone = "light",
+  size = "md",
+}: {
+  className?: string;
+  direction?: "right" | "up-right";
+  tone?: "light" | "ink";
+  size?: "sm" | "md";
+}) {
+  return (
+    <span
+      aria-hidden
       className={cx(
-        "inline-block transition-transform duration-base ease-out",
-        travel,
+        "inline-flex shrink-0 items-center justify-center rounded-full",
+        size === "md" ? "size-6" : "size-5",
+        tone === "light" ? "bg-ink-contrast text-ink" : "bg-ink text-ink-contrast",
+        "transition-transform duration-base ease-out",
+        direction === "up-right"
+          ? "group-hover:translate-x-px group-hover:-translate-y-px"
+          : "group-hover:translate-x-0.5",
         className,
       )}
     >
-      {glyph}
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={cx(
+          size === "md" ? "size-3.5" : "size-3",
+          direction === "up-right" && "-rotate-45",
+        )}
+      >
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
     </span>
   );
 }
@@ -481,13 +459,8 @@ export function ScreenReaderOnly({ children }: { children: ReactNode }) {
 }
 
 /**
- * Stagger helper for entrance motion.
- *
- * Lives here rather than beside the observer that consumes it, because it is
- * a pure function called during server rendering - a "use client" module
- * cannot export something a Server Component calls directly.
- *
- * Capped so a long list never leaves its last item waiting.
+ * Stagger helper for entrance motion. A pure function called during server
+ * rendering, which is why it lives here and not beside the observer.
  */
 export function revealDelay(index: number, step = 70, max = 420) {
   return { "--reveal-delay": `${Math.min(index * step, max)}ms` } as CSSProperties;

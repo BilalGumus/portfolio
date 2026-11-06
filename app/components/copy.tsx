@@ -48,12 +48,15 @@ export function CopyButton({
       type="button"
       onClick={copy}
       className={cx(
-        // h-10 and px-4 to match the `md` Button size, so it sits level with
+        // h-10 and px-4.5 to match the `md` Button size, so it sits level with
         // the button it is always paired with rather than a notch shorter.
-        "group inline-flex h-10 items-center gap-1.5 rounded-sm border border-line px-4",
-        "meta text-tertiary transition-colors duration-fast ease-standard",
-        "hover:border-line-control hover:text-secondary",
-        state === "copied" && "border-accent/50 text-accent",
+        "group inline-flex h-10 items-center gap-1.5 rounded-full border px-4.5 shadow-xs",
+        "text-small font-medium transition-colors duration-fast ease-standard",
+        // One branch per state rather than an override, because two colour
+        // utilities on one element resolve by emission order, not by intent.
+        state === "copied"
+          ? "border-transparent bg-lavender-soft text-primary"
+          : "border-line-strong bg-surface text-secondary hover:border-line-control hover:text-primary",
         className,
       )}
       aria-label={`${label} ${value}`}

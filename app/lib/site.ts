@@ -96,20 +96,34 @@ export type Position = {
 };
 
 export const experience: Position[] = [
+  /**
+   * HrPanda began as a Univenn Startup Studio product. From April 2025 the
+   * work continued under HrPanda itself, so the same product spans two
+   * entries: the studio years and the company years.
+   */
+  {
+    title: "Computer Engineer, Full Stack Developer",
+    org: "HrPanda",
+    location: "Remote",
+    period: "Apr 2025 – Present",
+    years: "2025–",
+    detail:
+      "Moved from the studio to HrPanda itself, continuing on the same product: applicant tracking, job distribution, role-based access control, AI-assisted screening, and a candidate-sourcing browser extension. Full stack, from schema to interface.",
+  },
   {
     title: "Computer Engineer, Full Stack Developer",
     org: "Univenn Startup Studio",
-    location: "Izmir, TR",
-    period: "Aug 2023 — Present",
-    years: "2023–",
+    location: "Remote",
+    period: "Aug 2023 – Mar 2025",
+    years: "2023–25",
     detail:
-      "HrPanda: applicant tracking, job distribution, role-based access control, AI-assisted screening, and a candidate-sourcing browser extension. Full stack, from schema to interface.",
+      "HrPanda, while it was a studio product: full stack work on the applicant tracking system, from data model and permissions to the interface.",
   },
   {
     title: "Computer Engineer Intern (long term)",
     org: "Univenn Startup Studio",
-    location: "Izmir, TR",
-    period: "Oct 2022 — Jun 2023",
+    location: "Remote",
+    period: "Oct 2022 – Jun 2023",
     years: "2022–23",
     detail:
       "Built Magny, a dashboard for a Command Bar integration; added socket-based real-time Google Sheets sync to Dovl; wrote a chat application from scratch.",
@@ -117,8 +131,8 @@ export const experience: Position[] = [
   {
     title: "Frontend Developer (part time)",
     org: "Univenn Startup Studio",
-    location: "Izmir, TR",
-    period: "Sep 2022 — Nov 2022",
+    location: "Remote",
+    period: "Sep 2022 – Nov 2022",
     years: "2022",
     detail:
       "Added WebRTC video calling to Univerlive with PeerJS and cleared a standing frontend backlog.",
@@ -126,8 +140,8 @@ export const experience: Position[] = [
   {
     title: "Computer Engineer Intern",
     org: "Univenn Startup Studio",
-    location: "Izmir, TR",
-    period: "Jul 2022 — Aug 2022",
+    location: "Remote",
+    period: "Jul 2022 – Aug 2022",
     years: "2022",
     detail:
       "Feature work and defect fixes across the Univerlive client, dashboard and backend.",
@@ -136,7 +150,7 @@ export const experience: Position[] = [
     title: "Computer Engineer Intern",
     org: "General Directorate of Highways",
     location: "Kastamonu, TR",
-    period: "Jul 2021 — Aug 2021",
+    period: "Jul 2021 – Aug 2021",
     years: "2021",
     detail:
       "SCADA integration for the Ilgaz 15 July Independence Tunnel monitoring and control system, a MERN authentication microservice on Docker, and in-house hardware troubleshooting.",
@@ -148,7 +162,7 @@ export const education = [
     school: "Selçuk University",
     degree: "BSc, Computer Engineering",
     location: "Konya, TR",
-    period: "2019 — 2023",
+    period: "2019 – 2023",
     note: "Cumulative GPA 3.77 / 4.00",
   },
 ];
@@ -194,6 +208,32 @@ export const capabilities: CapabilityGroup[] = [
       "Testing & debugging",
     ],
   },
+];
+
+/**
+ * The marquee under the hero. The tools the work on this page is actually
+ * built with, in place of a row of customer logos - every entry also appears
+ * in `capabilities` or in a project's stack.
+ *
+ * `logo` is a file in /public/logos. They are Simple Icons (CC0), downloaded
+ * from simple-icons@13.21.0 rather than hot-linked, so the page makes no
+ * third-party request for them. Each is a single monochrome path, which is
+ * what lets the marquee draw them as masks in the current text colour.
+ */
+export type StackItem = { name: string; logo: string };
+
+export const stackStrip: StackItem[] = [
+  { name: "TypeScript", logo: "typescript" },
+  { name: "React", logo: "react" },
+  { name: "Next.js", logo: "nextdotjs" },
+  { name: "Node.js", logo: "nodedotjs" },
+  { name: "PostgreSQL", logo: "postgresql" },
+  { name: "Tailwind CSS", logo: "tailwindcss" },
+  { name: "shadcn/ui", logo: "shadcnui" },
+  { name: "GraphQL", logo: "graphql" },
+  { name: "Docker", logo: "docker" },
+  { name: "Tauri", logo: "tauri" },
+  { name: "Puppeteer", logo: "puppeteer" },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -242,7 +282,7 @@ export const meta = {
     height: 630,
     type: "image/jpeg",
   },
-  title: `${profile.name} — ${profile.role}`,
+  title: `${profile.name} | ${profile.shortRole} & ${profile.role}`,
   description:
     "Computer engineer and full stack developer in Kastamonu. TypeScript, React, Next.js and Node - web applications built end to end.",
   keywords: [
@@ -258,7 +298,7 @@ export const meta = {
   ],
   /** Shown in the footer colophon. Self-documenting, and true. */
   colophon: {
-    typefaces: "Inter · PT Serif",
+    typefaces: "Inter · Newsreader",
     built: "Next.js 16 · React 19 · Tailwind CSS 4",
     motion: "CSS transitions, no animation library",
   },

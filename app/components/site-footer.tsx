@@ -1,64 +1,117 @@
-import { Container, Meta } from "./primitives";
-import { links, meta, profile } from "@/app/lib/site";
+import { ArrowDisc, Container, buttonClass } from "./primitives";
+import { capabilities, links, meta, nav, profile } from "@/app/lib/site";
+import { projects } from "@/app/lib/work";
+
+type Column = {
+  title: string;
+  items: Array<{ label: string; href?: string; external?: boolean }>;
+};
 
 /**
- * Footer, laid out as a drawing's title block: who, what, when, and the
- * colophon. The colophon is the one piece of self-indulgence on the site and
- * it earns its place by being true and checkable.
+ * Footer.
+ *
+ * The reference closes on a wall of link columns - product, company,
+ * resources, legal. A portfolio has fewer destinations and more facts, so the
+ * columns are split between the two: where to go (elsewhere, the work, the
+ * page itself) and what the work is built with. The stack lives here in full
+ * rather than as its own section, where it would be a list of nouns with a
+ * heading on it.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
 
+  const columns: Column[] = [
+    {
+      title: "Elsewhere",
+      items: links.map((link) => ({ label: link.label, href: link.href, external: link.external })),
+    },
+    {
+      title: "Work",
+      items: projects.map((project) => ({ label: project.name, href: `/#${project.slug}` })),
+    },
+    {
+      title: "Page",
+      items: nav.map((item) => ({ label: item.label, href: `/${item.href}` })),
+    },
+    ...capabilities.map((group) => ({
+      title: group.title,
+      items: group.items.map((item) => ({ label: item })),
+    })),
+  ];
+
+  const badges = links.filter((link) => link.external);
+
   return (
-    <footer className="border-t border-line">
+    <footer className="mt-16">
       <Container>
-        <div className="grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-0 lg:py-16">
-          <div className="pl-0.5 lg:col-span-2 lg:pr-6">
-            <p className="text-h3 text-primary">{profile.name}</p>
-            <p className="mt-1 text-small text-secondary">{profile.role}</p>
-            <p className="mt-6 measure-tight text-small text-tertiary">
+        <div className="grid grid-cols-1 gap-14 border-t border-line pt-16 pb-20 sm:pt-20 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-24">
+          {/* Identity */}
+          <div>
+            <p className="text-[1.0625rem] font-medium tracking-tight text-primary">
+              {profile.name}
+            </p>
+            <p className="mt-4 max-w-[34ch] text-caption text-secondary">{meta.description}</p>
+            <p className="mt-4 text-micro text-tertiary">
+              {profile.role}
+              <br />
               {profile.location} · {profile.timezone}
             </p>
-          </div>
 
-          <div className="pl-0.5 lg:pr-6">
-            <Meta as="p" className="mb-3">
-              Elsewhere
-            </Meta>
-            <ul className="space-y-1.5">
-              {links.map((link) => (
+            {/* Profile links as the same hairline pills used everywhere else,
+                rather than imitation app-store badges - they are links, and
+                should look like the site's other links. */}
+            <ul className="mt-7 flex flex-wrap gap-2">
+              {badges.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    {...(link.external
-                      ? { target: "_blank", rel: "noopener noreferrer" }
-                      : {})}
-                    className="link-underline text-small text-secondary hover:text-primary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={buttonClass("secondary", "sm", "group pr-1")}
                   >
                     {link.label}
+                    <ArrowDisc direction="up-right" tone="ink" size="sm" />
                   </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="pl-0.5 lg:pr-6">
-            <Meta as="p" className="mb-3">
-              Colophon
-            </Meta>
-            <ul className="space-y-1.5 text-small text-tertiary">
-              <li>{meta.colophon.typefaces}</li>
-              <li>{meta.colophon.built}</li>
-              <li>{meta.colophon.motion}</li>
-            </ul>
+          {/* Columns */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 xl:grid-cols-6">
+            {columns.map((column) => (
+              <div key={column.title}>
+                <p className="text-caption font-medium text-primary">{column.title}</p>
+                <ul className="mt-3 space-y-2">
+                  {column.items.map((item) => (
+                    <li key={item.label} className="text-caption">
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          className="text-tertiary transition-colors duration-fast hover:text-primary"
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <span className="text-tertiary">{item.label}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="grid-air flex flex-wrap items-baseline justify-between gap-3 pb-8">
-          <Meta as="p">
-            © {year} {profile.name}
-          </Meta>
-          <Meta as="p">Built and maintained in the open</Meta>
+        <div className="flex flex-col gap-3 pb-8 text-micro text-tertiary sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {year} {profile.name}. All rights reserved.
+          </p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1">
+            <li>{meta.colophon.typefaces}</li>
+            <li>{meta.colophon.built}</li>
+          </ul>
         </div>
       </Container>
     </footer>

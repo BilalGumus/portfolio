@@ -1,32 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, PT_Serif, Geist } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { Analytics } from "@/app/components/analytics";
-import { GridLines } from "@/app/components/primitives";
 import { SiteFooter } from "@/app/components/site-footer";
 import { SiteHeader } from "@/app/components/site-header";
 import { RevealController, ThemeScript } from "@/app/components/theme";
 import { meta, profile } from "@/app/lib/site";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 /**
  * Two typefaces, each with a job.
  *
- * Inter carries everything that is read - the most optically settled neutral
- * grotesque available self-hosted, and its variable axis covers the whole
- * weight range from one file.
+ * Inter carries everything that is read: navigation, cards, prose, labels.
  *
- * PT Serif carries the labelling voice: section numbers, section names,
- * captions, figure titles. It replaced a monospace in that role, which changed
- * the register from technical to editorial - a serif beside a neutral
- * grotesque is the oldest pairing in publishing, and it lets a label read as a
- * label without shouting in uppercase.
- *
- * PT Serif is a low-contrast transitional face designed for screen text, so
- * unlike a display serif it stays sturdy at label size, and it ships a real
- * 700 alongside the italic.
+ * Newsreader carries the spoken voice - the hero line, the about lead, the
+ * contact line, the years on the record cards. A text serif with an optical
+ * size axis, so the same family is delicate at display size and still sturdy
+ * at 20px, which is the range it is used across here.
  *
  * `latin-ext` is not optional: "Gümüş" needs U+015F, which the plain latin
  * subset does not carry.
@@ -37,11 +26,11 @@ const inter = Inter({
   display: "swap",
 });
 
-const ptSerif = PT_Serif({
+const newsreader = Newsreader({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "700"],
   style: ["normal", "italic"],
-  variable: "--font-pt-serif",
+  axes: ["opsz"],
+  variable: "--font-newsreader",
   display: "swap",
 });
 
@@ -49,7 +38,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(meta.url),
   title: {
     default: meta.title,
-    template: `%s — ${profile.name}`,
+    template: `%s | ${profile.name}`,
   },
   description: meta.description,
   authors: [{ name: profile.name, url: "https://github.com/BilalGumus/" }],
@@ -94,6 +83,18 @@ export const metadata: Metadata = {
     },
   },
   category: "technology",
+  // Declared here rather than as /app file conventions so the files can keep
+  // names that say their size. The convention only matches `icon` plus one
+  // optional digit (icon.png, icon1.png ... icon9.png), so icon16.png or
+  // favicon-16x16.png in /app would be silently ignored. favicon.ico stays in
+  // /app, where the convention picks it up on its own.
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -102,8 +103,8 @@ export const viewport: Viewport = {
   // Matches --color-bg in each theme so the browser chrome does not fight the
   // page. These are the resolved sRGB values of the OKLCH tokens.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f9f7f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d0e11" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0c0e" },
   ],
 };
 
@@ -116,7 +117,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       // The boot script writes data-theme and data-motion before React runs.
       suppressHydrationWarning
-      className={cn(inter.variable, ptSerif.variable, "font-sans", geist.variable)}
+      className={`${inter.variable} ${newsreader.variable}`}
     >
       <head>
         <ThemeScript />
@@ -124,7 +125,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-dvh bg-bg text-primary antialiased">
         <a
           href="#main"
-          className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:rounded-sm focus-visible:bg-accent focus-visible:px-3 focus-visible:py-2 focus-visible:text-small focus-visible:text-accent-contrast"
+          className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:rounded-full focus-visible:bg-ink focus-visible:px-4 focus-visible:py-2 focus-visible:text-small focus-visible:text-ink-contrast"
         >
           Skip to content
         </a>
@@ -132,7 +133,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Page views only, and only when the OpenPanel env vars are set. */}
         <Analytics />
 
-        <GridLines />
         <SiteHeader />
 
         <main id="main" tabIndex={-1}>

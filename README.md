@@ -1,10 +1,10 @@
 # Personal Website
 
-Hi 👋, This is my portfolio website which is created with [NextJS](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/) & more.
+Hi 👋, This is my portfolio website which is created with [NextJS](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [three.js](https://threejs.org/) & more.
 
 ## Project
 
-🟠 You can see live at: https://bilalgumus.net
+🟣 You can see live at: https://bilalgumus.net
 
 ![Bilal Gümüş Personal Website](./public/images/og.jpg)
 
@@ -22,7 +22,7 @@ First clone this repository.
 $ git clone https://github.com/BilalGumus/portfolio.git
 ```
 
-In the project directory, you can run: (Make sure you already have [`nodejs`](https://nodejs.org/en/) & [`npm`](https://www.npmjs.com/) installed in your system.)
+In the project directory, you can run: (Make sure you already have [`nodejs`](https://nodejs.org/en/) v26 & [`npm`](https://www.npmjs.com/) installed in your system.)
 
 ```bash
 npm install && npm run dev
